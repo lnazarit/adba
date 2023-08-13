@@ -1,0 +1,54 @@
+"use client"
+import {useState} from 'react';
+import FormCreateItem from "@/components/FormCreateItem";
+import Item from '@/components/Item';
+import { useFetch } from '@/services/useFetch';
+import { NextUIProvider } from '@nextui-org/react';
+import CategoryList from '@/components/CategoryList';
+import {useTranslations} from 'next-intl';
+import Pagination from '@/components/Pagination';
+
+const URL = 'http://localhost:8080/api/items'
+
+
+// eslint-disable-next-line @next/next/no-async-client-component
+export default function Home() {
+  const [refresh, setRefresh] = useState(true);
+  const [categoryId, setCategoryId] = useState(null);
+  const {data, loading, error} = useFetch(URL, refresh, categoryId);
+  const t = useTranslations();
+
+
+  const loadItems = (id) => {
+    setRefresh((prev) => !prev);
+  }
+
+  return (
+    <NextUIProvider>
+      <main style={{margin: '0 auto', width: '50%'}}>
+        <h1>{t('main_title')}</h1>
+        <h3 className="mb-4">{t('items')} {data?.meta.total}:</h3>
+        <div className='mb-4'>
+          <CategoryList showAll callback={(id) => setCategoryId(id)} />
+        </div>
+
+        {loading && <p>{t('loading')} ....</p>}
+        {error && <p>{t('error_loading')}</p>}
+        {data?.items?.length > 0 && data.items.map(item => {
+          return <Item
+            key={item.id}
+            id={item.id}
+            title={item.title}
+            content={item.content}
+            done={item.done}
+            className="mb-4"
+            reloadList={async () => loadItems()}
+          />
+        })}
+        {data && <Pagination meta={data.meta} />}
+        <hr className="mb-4" />
+        <FormCreateItem reloadList={() => loadItems()} />
+      </main>
+    </NextUIProvider>
+  )
+}
