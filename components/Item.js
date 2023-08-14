@@ -2,6 +2,8 @@
 import React, {useState} from "react";
 import {Button, Checkbox} from "@nextui-org/react";
 import { ITEMS_API } from "@/app/constants/constants";
+import { IoIosClose } from "react-icons/io";
+
 
 export default function Item({title, content, id, className, reloadList, done}) {
   const [isLoading, setLoading] = useState(false);
@@ -39,21 +41,24 @@ export default function Item({title, content, id, className, reloadList, done}) 
 
 
   return (
-      <div style={{border: '1px solid #CCC', borderRadius: '4px', padding: '1rem'}} className={`flex ${className}`}>
+      <div style={{borderRadius: '4px', padding: '1rem'}} className={`border flex ${className}`}>
         <div style={{flex: '1'}}>
       <h3 className="flex">
       <Checkbox isSelected={done} onValueChange={(e) => {
         modifyDone(e)
       }}>
       </Checkbox><span> {title}</span></h3>
-      <small className="block muted">{content}</small>
+      <small className="block">{content}</small>
 
       </div>
       <Button
+        className="btn-close"
         isIconOnly
         isLoading={isLoading}
         isDisabled={isLoading}
-        onClick={(e) => deleteItem(id)}>X
+        onClick={() => deleteItem(id)}
+        >
+          <IoIosClose />
       </Button>
     </div>
   )

@@ -37,7 +37,7 @@ export default function FormCreateItem({reloadList}) {
       </div>
       <div>
       <div className="mb-4">
-        <CategoryList callback={(id) => setCategory(id)} />
+        <CategoryList callback={(category) => setCategory(category.id)} />
       </div>
       <div className="mb-4">
         <Textarea label="Description" name="content" value={content}  onChange={({target}) => setContent(target.value)} />
