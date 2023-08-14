@@ -1,5 +1,5 @@
 "use client";
-import {useState} from 'react';
+import {useState, Fragment} from 'react';
 import { useFetch } from "@/services/useFetch";
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
 import { CATEGORIES_API } from '@/app/constants/constants';
@@ -19,14 +19,17 @@ export default function CategoryList({callback, showAll = false}) {
           {title}
         </Button>
       </DropdownTrigger>
-      <DropdownMenu aria-label="Static Actions" items={showAll ? [...data, obj] : data}>
+      <DropdownMenu
+        aria-label="Dynamic Actions"
+        items={showAll ? [...data, obj] : data}
+      >
       {(item) => (
           <DropdownItem
+            key={item.slug}
             onClick={() => {
               setTitle(item.name);
               callback(item.id !== 0 ? {name: item.name, id: item.id} : null)
             }}
-            key={item.id}
           >
             {item.name}
           </DropdownItem>

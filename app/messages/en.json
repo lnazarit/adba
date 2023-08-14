@@ -6,6 +6,7 @@
   "commons": {
     "back": "Back",
     "next": "Next",
-    "search": "Search"
+    "search": "Search",
+    "delete": "Delete"
   }
 }

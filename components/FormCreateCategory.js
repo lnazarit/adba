@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
-import {Button} from "@nextui-org/button";
+import {Button, Input} from "@nextui-org/react";
+import { slugify } from "@/utils";
 
 const save = async (name, slug) => {
   const response = await fetch('http://localhost:8080/api/categories', {
@@ -34,11 +35,16 @@ export default function FormCreateCategory({reloadList}) {
     <form onSubmit={submit}>
       <div className="mb-4">
         <label>Title</label>
-      <input className="text-black" type="text" name="title" value={name} onChange={({target}) => setName(target.value)} />
+      <Input type="text" name="title" value={name}
+        onChange={({target}) => {
+          setName(target.value)
+          setSlug(slugify(target.value))
+        }}
+      />
       </div>
       <div>
       <label>Slug</label>
-      <input className="text-black" type="text" name="slug" value={slug} onChange={({target}) => setSlug(target.value)} />
+      <Input type="text" name="slug" value={slug} onChange={({target}) => setSlug(target.value)} />
       </div>
       <Button type="submit">Crear</Button>
 

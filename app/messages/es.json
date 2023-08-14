@@ -6,6 +6,7 @@
   "commons": {
     "back": "Atras",
     "next": "Siguiente",
-    "search": "Buscar"
+    "search": "Buscar",
+    "delete": "Borrar"
   }
 }

@@ -1,4 +1,4 @@
-import './globals.css'
+import '../globals.css'
 import {NextIntlClientProvider} from 'next-intl';
 import Head from 'next/head';
 // import {notFound} from 'next/navigation';
@@ -9,12 +9,7 @@ export function generateStaticParams() {
   return [{locale: 'en'}, {locale: 'es'}];
 }
 
-const playfair = Playfair_Display({
-  weight: ['400', '700'],
-  style: ['normal', 'italic'],
-  subsets: ['latin'],
-  display: 'swap',
-})
+export const playfair = Playfair_Display();
 
 export const metadata = {
   title: 'Registro de bienes materiales adquiridos y por adquirir',
@@ -30,14 +25,7 @@ export default async function LocaleLayout({children, params: {locale}}) {
   }
 
   return (
-    <html lang={locale}>
-      <Head>
-        <style global>{`
-          html {
-            font-family: ${playfair.style.fontFamily};
-          }
-        `}</style>
-      </Head>
+    <html lang={locale} className={playfair.variable}>
       <body className="dark">
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}

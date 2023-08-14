@@ -1,12 +1,14 @@
 "use client";
 import React, {useState} from "react";
-import {Button, Checkbox} from "@nextui-org/react";
+import {Button, Checkbox, Tooltip} from "@nextui-org/react";
 import { ITEMS_API } from "@/app/constants/constants";
 import { IoIosClose } from "react-icons/io";
+import { useTranslations } from "next-intl";
 
 
 export default function Item({title, content, id, className, reloadList, done}) {
   const [isLoading, setLoading] = useState(false);
+  const t = useTranslations();
 
   const deleteItem = (id)  => {
     setLoading(true)
@@ -30,7 +32,6 @@ export default function Item({title, content, id, className, reloadList, done}) 
       },
       body: JSON.stringify({done: data}),
     }).then(() => {
-      alert("se marcó como hecho");
       reloadList();
 
     }).catch((err) => {
@@ -51,15 +52,17 @@ export default function Item({title, content, id, className, reloadList, done}) 
       <small className="block">{content}</small>
 
       </div>
-      <Button
-        className="btn-close"
-        isIconOnly
-        isLoading={isLoading}
-        isDisabled={isLoading}
-        onClick={() => deleteItem(id)}
-        >
-          <IoIosClose />
-      </Button>
+      <Tooltip content={t('commons.delete')}>
+        <Button
+          className="btn-close"
+          isIconOnly
+          isLoading={isLoading}
+          isDisabled={isLoading}
+          onClick={() => deleteItem(id)}
+          >
+            <IoIosClose />
+        </Button>
+      </Tooltip>
     </div>
   )
 }
