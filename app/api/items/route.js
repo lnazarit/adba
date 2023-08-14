@@ -16,7 +16,7 @@ export async function GET(req) {
   const search = searchParams.get("search");
   const PER_PAGE = Math.max(Number(searchParams.get('per_page') || 3), 3);
 
-  let items = await prisma.item.findMany({
+  let items = await prisma.item.findMany(!search && {
     take: PER_PAGE,
     skip: (currentPage - 1) * PER_PAGE,
   })
@@ -38,8 +38,8 @@ export async function GET(req) {
   if(search) {
     items = await prisma.item.findMany({
       where: {
-        content: {
-          search: 'espejo'
+        title: {
+          contains: search
         }
       }
     })

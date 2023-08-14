@@ -5,6 +5,7 @@
   "loading": "Loading",
   "commons": {
     "back": "Back",
-    "next": "Next"
+    "next": "Next",
+    "search": "Search"
   }
 }

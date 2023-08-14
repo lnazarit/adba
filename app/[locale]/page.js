@@ -8,6 +8,7 @@ import CategoryList from '@/components/CategoryList';
 import {useTranslations} from 'next-intl';
 import Pagination from '@/components/Pagination';
 import EmptyView from '@/components/EmptyView';
+import Search from '@/components/Search';
 
 const URL = 'http://localhost:8080/api/items'
 
@@ -30,11 +31,14 @@ export default function Home() {
       <main style={{margin: '0 auto', width: '50%'}}>
         <h1>{t('main_title')}</h1>
         <h3 className="mb-4">{t('items')} {data?.meta.total_items}:</h3>
-        <div className='mb-4'>
+        <div className='mb-4 flex'>
           <CategoryList showAll callback={(category) => {
             setCategory(category)
             setUrl(category ? `${URL}?category=${category.id}` : URL)}
           }/>
+          <Search
+            callback={(search) => setUrl(search !== '' ? `${URL}?search=${search}` : URL)}
+          />
         </div>
 
         {loading && <p>{t('loading')} ....</p>}

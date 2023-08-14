@@ -5,6 +5,7 @@
   "loading": "Cargando",
   "commons": {
     "back": "Atras",
-    "next": "Siguiente"
+    "next": "Siguiente",
+    "search": "Buscar"
   }
 }
