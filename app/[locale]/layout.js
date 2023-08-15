@@ -1,29 +1,22 @@
-import './globals.css'
+import '../globals.css'
 import {NextIntlClientProvider} from 'next-intl';
+import Head from 'next/head';
 // import {notFound} from 'next/navigation';
 // import { ClerkProvider } from '@clerk/nextjs'
-import { Playfair_Display } from 'next/font/google'
 
 export function generateStaticParams() {
   return [{locale: 'en'}, {locale: 'es'}];
 }
-
-const playfair = Playfair_Display({
-  weight: ['400', '700'],
-  style: ['normal', 'italic'],
-  subsets: ['latin'],
-  display: 'swap',
-})
 
 export const metadata = {
   title: 'Registro de bienes materiales adquiridos y por adquirir',
   description: 'Simple todo list app',
 }
 
-export default async function LocaleLayout({children, params: {locale = 'en'}}) {
+export default async function RootLayout({children, params: {locale}}) {
   let messages;
   try {
-    messages = (await import(`./messages/${locale}.json`)).default;
+    messages = (await import(`../messages/${locale}.json`)).default;
   } catch (error) {
     console.log(error);
   }
@@ -31,6 +24,11 @@ export default async function LocaleLayout({children, params: {locale = 'en'}}) 
   return (
     <html lang={locale}>
       <body className="dark">
+        <Head>
+            <style>
+
+            </style>
+        </Head>
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
         </NextIntlClientProvider>
