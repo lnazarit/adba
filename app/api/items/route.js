@@ -26,9 +26,8 @@ export async function GET(req) {
   let count = await prisma.item.count()
   const total = await prisma.item.count();
 
-  const obj = {
-    categoryId: parseInt(category),
-  }
+  const obj = {}
+  if(category) obj.categoryId = parseInt(category)
   if(search !== '' && search !== null) {
     obj.title = {
       contains: search
@@ -37,7 +36,7 @@ export async function GET(req) {
     delete obj.search
   }
 
-  if(category) {
+  if(category || search) {
     items = await prisma.item.findMany({
       where: {
         ...obj
@@ -54,24 +53,7 @@ export async function GET(req) {
       }
     })
   }
-  // if(search) {
-  //   items = await prisma.item.findMany({
-  //     where: {
-  //       title: {
-  //         contains: search
-  //       }
-  //     },
-  //     take: PER_PAGE,
-  //     skip: (currentPage - 1) * PER_PAGE,
-  //   })
-  //   count = await prisma.item.count({
-  //     where: {
-  //       title: {
-  //         contains: search
-  //       }
-  //     }
-  //   })
-  // }
+
   return NextResponse.json({items, meta: {total_items: total, total: count, page: currentPage, per_page: PER_PAGE}})
 }
 

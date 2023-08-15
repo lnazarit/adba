@@ -56,7 +56,7 @@ export default function Home() {
             id={item.id}
             title={item.title}
             content={item.content}
-            category={item.category.name}
+            category={item.category?.name}
             done={item.done}
             className="mb-4"
             reloadList={() => loadItems()}

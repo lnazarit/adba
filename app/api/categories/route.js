@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import {prisma} from '@/libs/prisma';
+import { slugify } from "@/utils";
 
 export async function GET() {
   const categories = await prisma.categories.findMany()
@@ -11,8 +12,9 @@ export async function POST(request) {
   const newCategory = await prisma.categories.create({
     data: {
       name,
-      slug
+      slug: slugify(slug)
     }
   })
+
   return NextResponse.json(newCategory)
 }
