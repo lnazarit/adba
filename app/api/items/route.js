@@ -29,10 +29,12 @@ export async function GET(req) {
   const obj = {
     categoryId: parseInt(category),
   }
-  if(search) {
+  if(search !== '' && search !== null) {
     obj.title = {
       contains: search
     }
+  } else {
+    delete obj.search
   }
 
   if(category) {

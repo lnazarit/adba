@@ -35,7 +35,10 @@ export default function Home() {
             showAll
             callback={(category) => {
               setCategory(category)
-              setParamsUrl({...paramsUrl, category: category.id})
+              const obj = {...paramsUrl}
+              if(category) obj.category = category.id;
+              else delete obj.category;
+              setParamsUrl({...obj})
             }
           }
           />
@@ -61,10 +64,7 @@ export default function Home() {
         })}
         {data && (
         <Pagination
-          callback={page => {
-            setUrl(`${URL}?page=${page}`);
-            console.log(page);
-          }}
+          callback={page => {setParamsUrl({...paramsUrl, page})}}
           meta={data.meta} />
         )}
         <hr className="mb-4" />
