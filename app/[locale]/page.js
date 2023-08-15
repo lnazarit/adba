@@ -17,12 +17,11 @@ const URL = 'http://localhost:8080/api/items'
 export default function Home() {
   const [refresh, setRefresh] = useState(true);
   const [category, setCategory] = useState(null);
-  const [url, setUrl] = useState(URL);
-  const {data, loading, error} = useFetch(url, refresh);
+  const [paramsUrl, setParamsUrl] = useState(null);
+  const {data, loading, error} = useFetch(URL, paramsUrl, refresh);
   const t = useTranslations();
 
-
-  const loadItems = (id) => {
+  const loadItems = () => {
     setRefresh((prev) => !prev);
   }
 
@@ -32,12 +31,16 @@ export default function Home() {
         <h1>{t('main_title')}</h1>
         <h3 className="mb-4">{t('items')} {data?.meta.total_items}:</h3>
         <div className='mb-4 flex'>
-          <CategoryList showAll callback={(category) => {
-            setCategory(category)
-            setUrl(category ? `${URL}?category=${category.id}` : URL)}
-          }/>
+          <CategoryList
+            showAll
+            callback={(category) => {
+              setCategory(category)
+              setParamsUrl({...paramsUrl, category: category.id})
+            }
+          }
+          />
           <Search
-            callback={(search) => setUrl(search !== '' ? `${URL}?search=${search}` : URL)}
+            callback={(search) => setParamsUrl({...paramsUrl, search})}
           />
         </div>
 
@@ -50,16 +53,17 @@ export default function Home() {
             id={item.id}
             title={item.title}
             content={item.content}
+            category={item.category.name}
             done={item.done}
             className="mb-4"
-            reloadList={async () => loadItems()}
+            reloadList={() => loadItems()}
           />
         })}
         {data && (
         <Pagination
           callback={page => {
-            setUrl(`${URL}?page=${page}`)
-            loadItems();
+            setUrl(`${URL}?page=${page}`);
+            console.log(page);
           }}
           meta={data.meta} />
         )}

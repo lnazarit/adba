@@ -19,38 +19,57 @@ export async function GET(req) {
   let items = await prisma.item.findMany(!search && {
     take: PER_PAGE,
     skip: (currentPage - 1) * PER_PAGE,
+    include: {
+      category: true,
+    },
   })
   let count = await prisma.item.count()
   const total = await prisma.item.count();
 
+  const obj = {
+    categoryId: parseInt(category),
+  }
+  if(search) {
+    obj.title = {
+      contains: search
+    }
+  }
+
   if(category) {
     items = await prisma.item.findMany({
       where: {
-        categoryId: parseInt(param)
-      }
+        ...obj
+      },
+      take: PER_PAGE,
+      skip: (currentPage - 1) * PER_PAGE,
+      include: {
+        category: true,
+      },
     })
     count = await prisma.item.count({
       where: {
-        categoryId: parseInt(param)
+        ...obj
       }
     })
   }
-  if(search) {
-    items = await prisma.item.findMany({
-      where: {
-        title: {
-          contains: search
-        }
-      }
-    })
-    // count = await prisma.item.count({
-    //   where: {
-    //     title: {
-    //       search
-    //     }
-    //   }
-    // })
-  }
+  // if(search) {
+  //   items = await prisma.item.findMany({
+  //     where: {
+  //       title: {
+  //         contains: search
+  //       }
+  //     },
+  //     take: PER_PAGE,
+  //     skip: (currentPage - 1) * PER_PAGE,
+  //   })
+  //   count = await prisma.item.count({
+  //     where: {
+  //       title: {
+  //         contains: search
+  //       }
+  //     }
+  //   })
+  // }
   return NextResponse.json({items, meta: {total_items: total, total: count, page: currentPage, per_page: PER_PAGE}})
 }
 

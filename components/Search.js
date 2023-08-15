@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback} from "react";
 import { Button, Input } from "@nextui-org/react";
 import { useDebounce } from "@/app/hooks";
 import { useTranslations } from "next-intl";
@@ -7,14 +7,13 @@ import { IoIosClose } from "react-icons/io";
 
 export default function Search({ callback }) {
   const t = useTranslations();
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(null);
   const debounceSearch = useDebounce(searchTerm, 300);
-
   const cb = useCallback(callback, [callback]);
 
   useEffect(() => {
-    cb(debounceSearch);
-  }, [debounceSearch, cb]);
+    if(searchTerm !== null) cb(debounceSearch);
+  }, [debounceSearch]);
 
   return (
     <div className="search ml-2 relative">

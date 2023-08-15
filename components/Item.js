@@ -1,12 +1,12 @@
 "use client";
 import React, {useState} from "react";
-import {Button, Checkbox, Tooltip} from "@nextui-org/react";
+import {Button, Checkbox, Tooltip, Chip} from "@nextui-org/react";
 import { ITEMS_API } from "@/app/constants/constants";
 import { IoIosClose } from "react-icons/io";
 import { useTranslations } from "next-intl";
 
 
-export default function Item({title, content, id, className, reloadList, done}) {
+export default function Item({title, content, id, className, reloadList, done, category}) {
   const [isLoading, setLoading] = useState(false);
   const t = useTranslations();
 
@@ -50,7 +50,7 @@ export default function Item({title, content, id, className, reloadList, done}) 
       }}>
       </Checkbox><span> {title}</span></h3>
       <small className="block">{content}</small>
-
+      <Chip size="sm">{category}</Chip>
       </div>
       <Tooltip content={t('commons.delete')}>
         <Button
