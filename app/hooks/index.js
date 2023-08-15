@@ -21,4 +21,14 @@ function useDocumentTitle(title) {
   }, [title]);
 }
 
-export {useDebounce, useDocumentTitle}
+function useLang(locale) {
+  const [messages, setMessages] = useState(null)
+  useEffect(() => {
+    import(`../messages/${locale}.json`).then((e) => {
+      setMessages(e.default)
+    });
+  }, [locale])
+  return {messages};
+}
+
+export {useDebounce, useDocumentTitle, useLang}

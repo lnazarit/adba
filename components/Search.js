@@ -25,7 +25,7 @@ export default function Search({ callback }) {
           setSearchTerm(target.value);
         }}
       />
-      {searchTerm !== "" && <Button
+      {searchTerm !== null && searchTerm !== "" && <Button
         style={{position: 'absolute', right: 12, top: 6, padding: '3px', minWidth: 0, width: 25, height: 25}}
         className="btn-close"
         isIconOnly

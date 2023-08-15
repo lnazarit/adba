@@ -4,14 +4,13 @@ import {NextUIProvider} from "@nextui-org/react";
 import ItemCategory from '@/components/ItemCategory';
 import FormCreateCategory from '@/components/FormCreateCategory';
 import { useFetch } from '@/services/useFetch';
-
-const URL = 'http://localhost:8080/api/categories'
+import { CATEGORIES_API } from '@/app/constants/constants';
 
 
 // eslint-disable-next-line @next/next/no-async-client-component
 export default function Categories() {
   const [refresh, setRefresh] = useState(true);
-  const {data: categories, loading, error} = useFetch(URL, refresh);
+  const {data: categories, loading, error} = useFetch(CATEGORIES_API, undefined, refresh);
 
   const loadCategories = () => {
     setRefresh((prev) => !prev);

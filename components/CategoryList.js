@@ -19,7 +19,7 @@ export default function CategoryList({callback, showAll = false}) {
           {title}
         </Button>
       </DropdownTrigger>
-      <DropdownMenu
+      {data && <DropdownMenu
         aria-label="Dynamic Actions"
         items={showAll ? [...data, obj] : data}
       >
@@ -34,7 +34,7 @@ export default function CategoryList({callback, showAll = false}) {
             {item.name}
           </DropdownItem>
         )}
-      </DropdownMenu>
+      </DropdownMenu>}
     </Dropdown>
   );
 }
