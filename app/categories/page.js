@@ -18,7 +18,7 @@ export default function Categories() {
 
   return (
     <NextUIProvider>
-      <main>
+      <main style={{margin: '0 auto', width: '50%', padding: '4rem 0'}}>
         <h3>Categorias {categories?.length}:</h3>
         {loading && <p>Loading ....</p>}
         {error && 'Hubo un error al cargar las categorias'}

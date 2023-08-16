@@ -3,36 +3,60 @@ import { useState } from "react";
 import {Button, Input} from "@nextui-org/react";
 import { slugify } from "@/utils";
 
-const save = async (name, slug) => {
-  const response = await fetch('http://localhost:8080/api/categories', {
-    method: 'POST',
-    body: JSON.stringify({name, slug}),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-  if (!response.ok) {
-    const message = `An error has occured: ${response.status}`;
-    throw new Error(message);
-  }
-}
-
 export default function FormCreateCategory({reloadList}) {
   const [name, setName] = useState('');
   const [slug, setSlug] = useState('');
+  const [error, setError] = useState(null);
 
-  const submit = async (e) => {
+  const savse = async (name, slug) => {
+    try {
+      const response = await fetch('http://localhost:8080/api/categories', {
+        method: 'POST',
+        body: JSON.stringify({name, slug}),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      // if (!response.ok) {
+      //   console.log(response.errors)
+      //   const message = `An error has occured: ${response.status}`;
+      //   throw new Error(message);
+      // }
+    } catch(err) {
+      console.log(err.message)
+    }
+  }
+
+  const save = (name, slug) => {
+    
+      fetch('http://localhost:8080/api/categories', {
+        method: 'POST',
+        body: JSON.stringify({name, slug}),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(() => {
+        console.log("exito")
+      })
+      // if (!response.ok) {
+      //   console.log(response.errors)
+      //   const message = `An error has occured: ${response.status}`;
+      //   throw new Error(message);
+      // }
+    .catch((err) => {
+      console.log(err.message)
+    })
+  }
+
+  const submit = (e) => {
     e.preventDefault();
-      try {
-        await save(name, slug);
-      } catch(err) {
-        console.log(err);
-      }
-      await reloadList();
+      save(name, slug);
+      // await reloadList();
   }
 
   return (
     <form onSubmit={submit}>
+      {error && <p>Error: {error}</p>}
       <div className="mb-4">
         <label>Title</label>
       <Input type="text" name="title" value={name}

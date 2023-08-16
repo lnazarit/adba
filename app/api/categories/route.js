@@ -24,6 +24,15 @@ export async function POST(request) {
     }
     return NextResponse.json(newCategory)
   } catch(err) {
-    return NextResponse.json({error: err})
+    if (err instanceof Error) {
+      return NextResponse.json(
+        {
+          message: err.message,
+        },
+        {
+          status: 500,
+        }
+      );
+    }
   }
 }
