@@ -5,8 +5,10 @@
   "loading": "Cargando",
   "commons": {
     "back": "Atras",
-    "next": "Siguiente",
-    "search": "Buscar",
-    "delete": "Borrar"
+    "delete": "Borrar",
+    "dashboard": "Resumen",
+    "next": "Siguente",
+    "no_results": "Sin resultados",
+    "search": "Search"
   }
 }

@@ -1,5 +1,5 @@
 import './globals.css'
-
+import ProviderLocale from "./ProviderLocale";
 // import {notFound} from 'next/navigation';
 // import { ClerkProvider } from '@clerk/nextjs'
 
@@ -11,10 +11,12 @@ export const metadata = {
 
 export default function RootLayout({children}) {
   return (
-    <html className="dark" lang="en">
-      <body>
-          {children}
-      </body>
-    </html>
+      <html className="dark" lang="en">
+        <body>
+          <ProviderLocale>
+            {children}
+          </ProviderLocale>
+        </body>
+      </html>
   );
 }

@@ -11,7 +11,7 @@ body {
   color: white;
 }
 
-.border {
+.border, .border-b {
   border-color: #333;
 }
 
@@ -46,6 +46,29 @@ body {
 .empty-view {
   padding: 2rem;
 }
+
+/* GRID LOADING */
+.grid-loading {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+}
+
+/* DASHBOARD */
+
+.grid-dashboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.description {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 
 /* LOADER */
 

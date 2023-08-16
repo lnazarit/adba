@@ -5,8 +5,10 @@
   "loading": "Loading",
   "commons": {
     "back": "Back",
+    "delete": "Delete",
+    "dashboard": "Dashboard",
     "next": "Next",
-    "search": "Search",
-    "delete": "Delete"
+    "no_results": "No results",
+    "search": "Search"
   }
 }

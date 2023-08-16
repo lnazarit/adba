@@ -9,12 +9,21 @@ export async function GET() {
 
 export async function POST(request) {
   const {name, slug} = await request.json();
-  const newCategory = await prisma.categories.create({
-    data: {
-      name,
-      slug: slugify(slug)
-    }
-  })
+  try {
+    const newCategory = await prisma.categories.create({
+      data: {
+        name,
+        slug: slugify(slug)
+      }
+    })
 
-  return NextResponse.json(newCategory)
+    if (!newCategory) {
+      return NextResponse.json({
+        message: 'Not found'
+      }, { status: 404})
+    }
+    return NextResponse.json(newCategory)
+  } catch(err) {
+    return NextResponse.json({error: err})
+  }
 }
