@@ -1,9 +1,12 @@
 import { NextResponse } from "next/server";
+import { writeFile } from "fs/promises";
 import {prisma} from '@/libs/prisma';
 import {z} from 'zod';
+import path from "path";
 
 const schema =  z.object({
   title: z.string().min(3),
+  cover: z.string(),
   content: z.string().min(3),
   done: z.boolean(),
   categoryId: z.number()
@@ -61,9 +64,23 @@ export async function GET(req) {
 }
 
 export async function POST(request) {
-  const {title, content, categoryId, done, body} = await request.json();
+  const data = await request.formData();
+  const cover = data.get("cover");
+  const title = data.get("title");
+  const categoryId = Number(data.get("categoryId"));
+  const content = data.get("content");
+  const done = data.get("done") === 'true' ? true : false;
+
+  if (!cover) return NextResponse.json({ success: false });
+
+  const bytes = await cover.arrayBuffer();
+  const buffer = Buffer.from(bytes);
+
+  const filePath = path.join(process.cwd(), "public/assets", cover.name);
+  await writeFile(filePath, buffer);
+
   try {
-    const response = schema.safeParse({title, content, categoryId, done, body})
+    const response = schema.safeParse({title, content, categoryId, done, cover: cover.name})
 
   if (!response.success) {
     const { errors } = response.error;
@@ -77,11 +94,12 @@ export async function POST(request) {
         title,
         content,
         categoryId,
-        done
+        done,
+        cover: cover.name
       }
     })
     return NextResponse.json(newItem)
   } catch(err) {
-    return NextResponse.json({error: err})
+    return NextResponse.json({error: err.message})
   }
 }

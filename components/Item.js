@@ -1,12 +1,16 @@
 "use client";
 import React, {useState} from "react";
 import {Button, Checkbox, Tooltip, Chip} from "@nextui-org/react";
-import { ITEMS_API } from "@/app/constants/constants";
+import { ITEMS_API, IMAGES_FOLDER } from "@/app/constants/constants";
 import { IoIosClose } from "react-icons/io";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 
-export default function Item({title, content, id, className, reloadList, done, category}) {
+export default function Item(props) {
+  const {
+    title, content, id, className, reloadList, done, category, cover
+  } = props;
   const [isLoading, setLoading] = useState(false);
   const t = useTranslations();
 
@@ -43,6 +47,9 @@ export default function Item({title, content, id, className, reloadList, done, c
 
   return (
       <div style={{borderRadius: '4px', padding: '1rem'}} className={`border flex ${className}`}>
+        <div className="cover">
+          {cover && <Image alt={cover} width="50" height="50" src={`${IMAGES_FOLDER}/${cover}`} />}
+        </div>
         <div style={{flex: '1', width: '1%'}}>
       <h3 className="flex">
       <Checkbox isSelected={done} onValueChange={(e) => {

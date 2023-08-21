@@ -53,6 +53,7 @@ export default function Home() {
             content={item.content}
             category={item.category?.name}
             done={item.done}
+            cover={item.cover}
             className="mb-4"
             reloadList={() => loadItems()}
           />
