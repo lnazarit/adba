@@ -19,6 +19,9 @@ export async function GET(req) {
   let items = await prisma.item.findMany(!search && {
     take: PER_PAGE,
     skip: (currentPage - 1) * PER_PAGE,
+    orderBy: {
+      createdAt: 'desc'
+    },
     include: {
       category: true,
     },

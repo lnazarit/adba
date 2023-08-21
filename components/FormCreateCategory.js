@@ -2,47 +2,33 @@
 import { useState } from "react";
 import {Button, Input} from "@nextui-org/react";
 import { slugify } from "@/utils";
+import ErrorBox from "./ErrorBox";
 
 export default function FormCreateCategory({reloadList}) {
   const [name, setName] = useState('');
   const [slug, setSlug] = useState('');
   const [error, setError] = useState(null);
-
-  const savse = async (name, slug) => {
-    try {
-      const response = await fetch('http://localhost:8080/api/categories', {
-        method: 'POST',
-        body: JSON.stringify({name, slug}),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      // if (!response.ok) {
-      //   console.log(response.errors)
-      //   const message = `An error has occured: ${response.status}`;
-      //   throw new Error(message);
-      // }
-    } catch(err) {
-      console.log(err.message)
-    }
-  }
+  const [errorMsg, setErrorMsg] = useState('');
 
   const save = (name, slug) => {
-    
       fetch('http://localhost:8080/api/categories', {
         method: 'POST',
         body: JSON.stringify({name, slug}),
         headers: {
           'Content-Type': 'application/json'
         }
-      }).then(() => {
-        console.log("exito")
+      }).then((res) => {
+        if(res.status > 400) {
+          res.json().then((e) => {
+            setError(true);
+            setErrorMsg(e.message)
+          });
+        } else {
+          setError(false)
+          setErrorMsg('')
+          reloadList();
+        }
       })
-      // if (!response.ok) {
-      //   console.log(response.errors)
-      //   const message = `An error has occured: ${response.status}`;
-      //   throw new Error(message);
-      // }
     .catch((err) => {
       console.log(err.message)
     })
@@ -56,7 +42,7 @@ export default function FormCreateCategory({reloadList}) {
 
   return (
     <form onSubmit={submit}>
-      {error && <p>Error: {error}</p>}
+      {error && <ErrorBox msg={errorMsg} />}
       <div className="mb-4">
         <label>Title</label>
       <Input type="text" name="title" value={name}

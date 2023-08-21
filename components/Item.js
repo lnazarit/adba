@@ -43,13 +43,13 @@ export default function Item({title, content, id, className, reloadList, done, c
 
   return (
       <div style={{borderRadius: '4px', padding: '1rem'}} className={`border flex ${className}`}>
-        <div style={{flex: '1'}}>
+        <div style={{flex: '1', width: '1%'}}>
       <h3 className="flex">
       <Checkbox isSelected={done} onValueChange={(e) => {
         modifyDone(e)
       }}>
       </Checkbox><span> {title}</span></h3>
-      <small className="block">{content}</small>
+      <small className="block" style={{textOverflow: 'ellipsis',overflow: 'hidden', whiteSpace: 'nowrap'}}>{content}</small>
       <Chip size="sm">{category}</Chip>
       </div>
       <Tooltip content={t('commons.delete')}>

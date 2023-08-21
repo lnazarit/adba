@@ -30,7 +30,7 @@ export async function POST(request) {
           message: err.message,
         },
         {
-          status: 500,
+          status: 409,
         }
       );
     }

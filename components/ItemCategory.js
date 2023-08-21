@@ -1,19 +1,18 @@
 "use client";
 import React, {useState} from "react";
 import {Button} from "@nextui-org/button";
-
-const URL = 'http://localhost:8080/api/licors'
+import { CATEGORIES_API } from "@/app/constants/constants";
 
 export default function ItemCategory({name, slug, id, className, reloadList}) {
   const [isLoading, setLoading] = useState(false);
 
   const deleteItem = (id)  => {
     setLoading(true)
-    fetch(`${URL}/${id}`, {
+    fetch(`${CATEGORIES_API}/${id}`, {
       method: 'DELETE'
     }).then(() => {
       alert("se borro");
-      // reloadList();
+      reloadList();
 
     }).catch((err) => {
       console.log("ERROR", err)
