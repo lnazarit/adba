@@ -5,6 +5,7 @@ import { ITEMS_API, IMAGES_FOLDER } from "@/app/constants/constants";
 import { IoIosClose } from "react-icons/io";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import EditItem from "./EditItem";
 
 
 export default function Item(props) {
@@ -57,7 +58,7 @@ export default function Item(props) {
       }}>
       </Checkbox><span> {title}</span></h3>
       <small className="block" style={{textOverflow: 'ellipsis',overflow: 'hidden', whiteSpace: 'nowrap'}}>{content}</small>
-      <Chip size="sm">{category}</Chip>
+      <Chip size="sm">{category.name}</Chip>
       </div>
       <Tooltip content={t('commons.delete')}>
         <Button
@@ -70,6 +71,7 @@ export default function Item(props) {
             <IoIosClose />
         </Button>
       </Tooltip>
+      <EditItem {...props} />
     </div>
   )
 }

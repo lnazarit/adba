@@ -5,10 +5,19 @@
   "loading": "Loading",
   "commons": {
     "back": "Back",
+    "cancel": "Cancel",
+    "content:": "Content",
+    "cover": "Cover",
     "delete": "Delete",
+    "description": "Description",
     "dashboard": "Dashboard",
+    "name": "Name",
     "next": "Next",
     "no_results": "No results",
-    "search": "Search"
+    "save": "save",
+    "saving": "saving",
+    "search": "Search",
+    "title": "Title",
+    "url": "URL"
   }
 }

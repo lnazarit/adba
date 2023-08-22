@@ -2,6 +2,7 @@
 import {useState} from 'react';
 import {useTranslations} from 'next-intl';
 import FormCreateItem from "@/components/FormCreateItem";
+import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
 import Item from '@/components/Item';
 import { useFetch } from '@/services/useFetch';
 import CategoryList from '@/components/CategoryList';
@@ -14,6 +15,7 @@ export default function Home() {
 
   const [refresh, setRefresh] = useState(true);
   const [category, setCategory] = useState(null);
+  const [done, setDone] = useState(null);
   const [paramsUrl, setParamsUrl] = useState(null);
   const {data, loading, error} = useFetch(ITEMS_API, paramsUrl, refresh);
   const t = useTranslations();
@@ -37,6 +39,24 @@ export default function Home() {
             }
           }
           />
+          <Dropdown>
+            <DropdownTrigger>
+              <Button variant="bordered">Done</Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              aria-label="Static Actions"
+              onAction={(key) => {
+                setDone(key)
+                const obj = {...paramsUrl}
+                if(done) obj.done = key;
+                setParamsUrl({...obj})
+              }}
+            >
+              <DropdownItem key="1">Done</DropdownItem>
+              <DropdownItem key="0">Not done</DropdownItem>
+              <DropdownItem key="all">All</DropdownItem>  
+            </DropdownMenu>
+          </Dropdown>
           <Search
             callback={(search) => setParamsUrl({...paramsUrl, search})}
           />
@@ -51,7 +71,7 @@ export default function Home() {
             id={item.id}
             title={item.title}
             content={item.content}
-            category={item.category?.name}
+            category={item.category}
             done={item.done}
             cover={item.cover}
             className="mb-4"

@@ -16,6 +16,7 @@ export async function GET(req) {
   const {searchParams} = new URL(req.url);
   const currentPage = Math.max(Number(searchParams.get('page') || 1), 1)
   const category = searchParams.get("category");
+  const done = searchParams.get("done");
   const search = searchParams.get("search");
   const PER_PAGE = Math.max(Number(searchParams.get('per_page') || 3), 3);
 
@@ -34,6 +35,13 @@ export async function GET(req) {
 
   const obj = {}
   if(category) obj.categoryId = parseInt(category)
+  if(done) {
+    let doneVar;
+    if(done === "1") doneVar = true;
+    if(done === "0") doneVar = false;
+    obj.done = doneVar;
+    if(done === "null") delete obj.done;
+  }
   if(search !== '' && search !== null) {
     obj.title = {
       contains: search
@@ -42,7 +50,7 @@ export async function GET(req) {
     delete obj.search
   }
 
-  if(category || search) {
+  if(category || search || done) {
     items = await prisma.item.findMany({
       where: {
         ...obj
@@ -51,6 +59,9 @@ export async function GET(req) {
       skip: (currentPage - 1) * PER_PAGE,
       include: {
         category: true,
+      },
+      orderBy: {
+        createdAt: 'desc'
       },
     })
     count = await prisma.item.count({

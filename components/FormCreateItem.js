@@ -2,8 +2,8 @@
 import { useState } from "react";
 import {Checkbox, Button, Input, Textarea} from "@nextui-org/react";
 import CategoryList from "./CategoryList";
-import Image from "next/image";
 import { ITEMS_API } from "@/app/constants/constants";
+import FileUploader from "./FileUploader";
 
 
 export default function FormCreateItem({reloadList}) {
@@ -17,6 +17,7 @@ export default function FormCreateItem({reloadList}) {
 
   const submit = async (e) => {
     e.preventDefault();
+    setUploading(true)
     try {
       const data = new FormData();
       data.set("cover", file);
@@ -35,13 +36,10 @@ export default function FormCreateItem({reloadList}) {
       await reloadList();
     } catch(e) {
       console.log("pedazo de error", e.Error)
+    } finally {
+      setUploading(false)
     }
   }
-
-  const handleFileChange = e => {
-    if (!e.target.files?.[0]) return;
-    setFile(e.target.files?.[0]);
-  };
 
   return (
     <form onSubmit={submit}>
@@ -59,22 +57,7 @@ export default function FormCreateItem({reloadList}) {
         <Input label="Url" type="text" name="title" value={url} onChange={({target}) => setUrl(target.value)} />
       </div>
       <div className="mb-4">
-      {file && (
-          <Image
-            src={URL.createObjectURL(file)}
-            alt="Uploaded file"
-            className="w-64 h-64 object-contain mx-auto"
-            width={256}
-            height={256}
-          />
-        )}
-        <input type="file" onChange={handleFileChange} />
-        <button
-          className="btn btn-primary"
-          type="submit"
-        >
-          Send to server
-        </button>
+      <FileUploader file={file} handleFileChange={(e) => setFile(e)} />
       </div>
       <div className="mb-4">
         <Checkbox isSelected={done} onValueChange={setDone}>
@@ -82,7 +65,7 @@ export default function FormCreateItem({reloadList}) {
         </Checkbox>
       </div>
 
-      <Button type="submit">Agregar</Button>
+      <Button isDisabled={uploading} type="submit">Agregar</Button>
 
     </form>
   )

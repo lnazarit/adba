@@ -1,13 +1,21 @@
 "use client";
-import {useState, Fragment} from 'react';
+import {useState, useEffect} from 'react';
 import { useFetch } from "@/services/useFetch";
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
 import { CATEGORIES_API } from '@/app/constants/constants';
 
-export default function CategoryList({callback, showAll = false}) {
+export default function CategoryList({callback, showAll = false, name}) {
   const obj = {name: 'All', slug: 'all', id: 0}
   const {data, loading, error} = useFetch(CATEGORIES_API)
   const [title, setTitle] = useState('Select a category');
+
+  useEffect(() => {
+    if(data) {
+      const selected = data.find((e) => e.id === name);
+      if(selected) setTitle(selected.name)
+    }
+  }, [name, data])
+
   if(loading) return <p>Loading...</p>
   if(error) return <p>Error</p>
   return (
