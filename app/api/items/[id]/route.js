@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/libs/prisma"
+import { writeFile } from "fs/promises";
+import path from "path";
 
 export async function GET(request, {params}) {
   try {
@@ -50,23 +52,28 @@ export async function DELETE(request, {params}) {
 }
 
 export async function PUT(req, {params}) {
-  try {
-    // const {done} = await req.json();
-    // const res = await prisma.item.update({
-    //   where: { id: Number(params.id) },
-    //   data: { done }
-    // })
-
-    const data = await req.formData();
+  const data = await req.formData();
     const cover = data.get("cover");
     const title = data.get("title");
-    const categoryId = Number(data.get("categoryId"));
+    const url = data.get("url");
+    const categoryId = data.get("categoryId") ? Number(data.get("categoryId")) : null;
     const content = data.get("content");
     const done = data.get("done") === 'true' ? true : false;
-
-    console.log(cover, content, title, done, categoryId);
-
-    if(typeof cover !== 'string' && typeof cover !== null) {
+    const obj = {
+      title,
+      content,
+      categoryId,
+      done,
+      url,
+      cover: cover?.name
+    }
+    Object.keys(obj).forEach(key => {
+      if (obj[key] === null || obj[key] === undefined) {
+        delete obj[key];
+      }
+    });
+  try {
+    if(cover && typeof cover !== 'string' && typeof cover !== null && typeof cover !== undefined) {
       const bytes = await cover.arrayBuffer();
       const buffer = Buffer.from(bytes);
       const filePath = path.join(process.cwd(), "public/assets", cover.name);
@@ -75,13 +82,7 @@ export async function PUT(req, {params}) {
 
     const res = await prisma.item.update({
       where: { id: Number(params.id) },
-      data: {
-        title,
-        content,
-        categoryId,
-        done,
-        cover: cover.name
-      }
+      data: obj
     });
 
     if(!res) {
@@ -93,6 +94,7 @@ export async function PUT(req, {params}) {
     return NextResponse.json(res);
 
   } catch(error) {
+    console.log(obj)
     if(error instanceof Error) {
       return NextResponse.json({
         message: error.message

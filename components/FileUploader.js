@@ -1,5 +1,5 @@
-
 import Image from "next/image"
+import { useId } from "react";
 import { IMAGES_FOLDER } from "@/app/constants/constants"
 
 const coverFile = (file, string) => {
@@ -12,7 +12,14 @@ const coverFile = (file, string) => {
   />)
 }
 
+const nameFile = file => {
+  if(file === null) return 'Select file';
+  if(file && typeof file === 'string') return file;
+  return file.name
+}
+
 export default function FileUploader({file, handleFileChange}) {
+  const id = useId();
   const resultImage = () => {
     if(file === null) return <p>No image</p>
     if(file && typeof file === 'string') return coverFile(`${IMAGES_FOLDER}/${file}`, true)
@@ -21,16 +28,11 @@ export default function FileUploader({file, handleFileChange}) {
   return (
     <>
     {resultImage()}
-    {!file && <input type="file" onChange={(e) => {
+    <label for={id}>{nameFile(file)}</label>
+    <input id={id} type="file" onChange={(e) => {
       if (!e.target.files?.[0]) return;
       handleFileChange(e.target.files?.[0]);
-    }} />}
-    <button
-      className="btn btn-primary"
-      type="submit"
-    >
-      Select cover
-    </button>
+    }} />
     </>
   );
 }

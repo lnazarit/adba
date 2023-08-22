@@ -15,7 +15,7 @@ export default function EditItem(props) {
   const [loading, setLoading] = useState(false);
   const [content, setContent] = useState(props.content);
   const [done, setDone] = useState(props.done);
-  const [url, setUrl] = useState(props.url || '');
+  const [url, setUrl] = useState(props.url);
   const [cover, setCover] = useState(props.cover);
   const [categoryId, setCategoryId] = useState(props.category?.id)
 
@@ -24,6 +24,7 @@ export default function EditItem(props) {
     const data = new FormData();
     data.set("cover", cover);
     data.set("title", title);
+    data.set("url", url);
     data.set("content", content);
     data.set("categoryId", categoryId);
     data.set("done", done)
@@ -80,7 +81,7 @@ export default function EditItem(props) {
                 <Input
                   label={t('commons.url')}
                   variant="bordered"
-                  value={url}
+                  value={url || ''}
                   onChange={({target}) => setUrl(target.value)}
                 />
                 <div className="flex py-2 px-1 justify-between">

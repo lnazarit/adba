@@ -29,13 +29,12 @@ export default function Item(props) {
     })
   }
 
-  const modifyDone = (data)  => {
+  const modifyDone = (done)  => {
+    const data = new FormData();
+    data.set("done", done);
     fetch(`${ITEMS_API}/${id}`, {
       method: 'PUT',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({done: data}),
+      body: data,
     }).then(() => {
       reloadList();
 

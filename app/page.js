@@ -69,6 +69,7 @@ export default function Home() {
           return <Item
             key={item.id}
             id={item.id}
+            url={item.url}
             title={item.title}
             content={item.content}
             category={item.category}
