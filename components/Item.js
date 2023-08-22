@@ -60,7 +60,7 @@ export default function Item(props) {
       <small className="block" style={{textOverflow: 'ellipsis',overflow: 'hidden', whiteSpace: 'nowrap'}}>{content}</small>
       <Chip size="sm">{category.name}</Chip>
       </div>
-      <EditItem {...props} />
+      <EditItem reloadList={reloadList} {...props} />
       <Tooltip content={t('commons.delete')}>
         <Button
           className="btn-close ml-2"

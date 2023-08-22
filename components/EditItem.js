@@ -8,6 +8,7 @@ import { IoMdCreate } from "react-icons/io";
 import { ITEMS_API } from "@/app/constants/constants";
 
 export default function EditItem(props) {
+  const {reloadList} = props;
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const t = useTranslations();
   const [title, setTitle] = useState(props.title);
@@ -26,19 +27,18 @@ export default function EditItem(props) {
     data.set("content", content);
     data.set("categoryId", categoryId);
     data.set("done", done)
-    console.log(data);
-    // fetch(`${ITEMS_API}/${props.id}`, {
-    //   method: 'PUT',
-    //   body: data,
-    // }).then(() => {
-    //   // reloadList();
-    //   onClose();
-    // }).catch((err) => {
-    //   console.log("ERROR", err)
-    // })
-    // .finally(() => {
-    //   setLoading(false);
-    // })
+    fetch(`${ITEMS_API}/${props.id}`, {
+      method: 'PUT',
+      body: data,
+    }).then(() => {
+      reloadList();
+      onClose();
+    }).catch((err) => {
+      console.log("ERROR", err)
+    })
+    .finally(() => {
+      setLoading(false);
+    })
   }
 
   return (
