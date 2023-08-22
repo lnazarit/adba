@@ -25,6 +25,7 @@ export default function FormCreateItem({reloadList}) {
       data.set("content", content);
       data.set("categoryId", categoryId);
       data.set("done", done)
+      data.set("url", url)
       const response = await fetch(ITEMS_API, {
         method: 'POST',
         body: data
