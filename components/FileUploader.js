@@ -6,9 +6,9 @@ const coverFile = (file, string) => {
   return (<Image
     src={string ? file : URL.createObjectURL(file)}
     alt="Uploaded file"
-    className="w-64 h-64 object-contain mx-auto"
-    width={256}
-    height={256}
+    className="object-contain mx-auto my-5"
+    width={100}
+    height={100}
   />)
 }
 
@@ -21,10 +21,10 @@ export default function FileUploader({file, handleFileChange}) {
   return (
     <>
     {resultImage()}
-    <input type="file" onChange={(e) => {
+    {!file && <input type="file" onChange={(e) => {
       if (!e.target.files?.[0]) return;
       handleFileChange(e.target.files?.[0]);
-    }} />
+    }} />}
     <button
       className="btn btn-primary"
       type="submit"

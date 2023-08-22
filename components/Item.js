@@ -48,8 +48,8 @@ export default function Item(props) {
 
   return (
       <div style={{borderRadius: '4px', padding: '1rem'}} className={`border flex ${className}`}>
-        <div className="cover">
-          {cover && <Image alt={cover} width="50" height="50" src={`${IMAGES_FOLDER}/${cover}`} />}
+        <div className="cover mr-2">
+          {cover && <Image alt={cover} width="150" height="150" src={`${IMAGES_FOLDER}/${cover}`} />}
         </div>
         <div style={{flex: '1', width: '1%'}}>
       <h3 className="flex">
@@ -60,9 +60,10 @@ export default function Item(props) {
       <small className="block" style={{textOverflow: 'ellipsis',overflow: 'hidden', whiteSpace: 'nowrap'}}>{content}</small>
       <Chip size="sm">{category.name}</Chip>
       </div>
+      <EditItem {...props} />
       <Tooltip content={t('commons.delete')}>
         <Button
-          className="btn-close"
+          className="btn-close ml-2"
           isIconOnly
           isLoading={isLoading}
           isDisabled={isLoading}
@@ -71,7 +72,6 @@ export default function Item(props) {
             <IoIosClose />
         </Button>
       </Tooltip>
-      <EditItem {...props} />
     </div>
   )
 }

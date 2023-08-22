@@ -1,23 +1,57 @@
 import React, {useState} from "react";
 import {Modal, ModalContent, ModalHeader, ModalBody,
-  ModalFooter, Button, useDisclosure, Checkbox, Input, Textarea} from "@nextui-org/react";
+  ModalFooter, Button, useDisclosure, Checkbox, Input, Textarea, Tooltip} from "@nextui-org/react";
 import { useTranslations } from "next-intl";
 import CategoryList from "./CategoryList";
 import FileUploader from "./FileUploader";
+import { IoMdCreate } from "react-icons/io";
+import { ITEMS_API } from "@/app/constants/constants";
 
 export default function EditItem(props) {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const t = useTranslations();
   const [title, setTitle] = useState(props.title);
+  const [loading, setLoading] = useState(false);
   const [content, setContent] = useState(props.content);
   const [done, setDone] = useState(props.done);
   const [url, setUrl] = useState(props.url || '');
   const [cover, setCover] = useState(props.cover);
   const [categoryId, setCategoryId] = useState(props.category?.id)
 
+  const save = onClose => {
+    setLoading(true);
+    const data = new FormData();
+    data.set("cover", cover);
+    data.set("title", title);
+    data.set("content", content);
+    data.set("categoryId", categoryId);
+    data.set("done", done)
+    console.log(data);
+    // fetch(`${ITEMS_API}/${props.id}`, {
+    //   method: 'PUT',
+    //   body: data,
+    // }).then(() => {
+    //   // reloadList();
+    //   onClose();
+    // }).catch((err) => {
+    //   console.log("ERROR", err)
+    // })
+    // .finally(() => {
+    //   setLoading(false);
+    // })
+  }
+
   return (
     <>
-      <Button className="ml-2" onPress={onOpen} color="primary">Edit</Button>
+      <Tooltip content={t('commons.edit')}>
+        <Button
+          className="btn-close"
+          isIconOnly
+          onClick={onOpen}
+          >
+            <IoMdCreate />
+        </Button>
+      </Tooltip>
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
@@ -26,7 +60,7 @@ export default function EditItem(props) {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">Log in</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">Edit {title}</ModalHeader>
               <ModalBody>
                 <CategoryList name={categoryId} callback={(category) => setCategoryId(category.id)} />
                 <Input
@@ -34,7 +68,7 @@ export default function EditItem(props) {
                   label={t('commons.title')}
                   variant="bordered"
                   value={title}
-                  onChange={({target}) => setContent(target.value)}
+                  onChange={({target}) => setTitle(target.value)}
                 />
                 <Textarea
                   label={t('commons.description')}
@@ -65,7 +99,7 @@ export default function EditItem(props) {
                 <Button variant="flat" onPress={onClose}>
                   {t('commons.cancel')}
                 </Button>
-                <Button color="primary" onPress={onClose}>
+                <Button color="primary" onPress={() => save(onClose)}>
                   {t('commons.save')}
                 </Button>
               </ModalFooter>
