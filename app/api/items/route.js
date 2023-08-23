@@ -76,7 +76,7 @@ export async function POST(request) {
   const content = data.get("content");
   const done = data.get("done") === 'true' ? true : false;
 
-  if(cover && typeof cover !== 'string' && typeof cover !== null && typeof cover !== undefined) {
+  if(cover && cover !== 'null' && typeof cover !== 'string' && typeof cover !== null && typeof cover !== undefined) {
     const bytes = await cover.arrayBuffer();
     const buffer = Buffer.from(bytes);
     const filePath = path.join(process.cwd(), "public/assets", cover.name);
@@ -92,7 +92,7 @@ export async function POST(request) {
       done,
       url,
       dateDone: done ? new Date() : null,
-      cover: cover?.name
+      cover: cover !== 'null' ? cover?.name : null
     }
 
     Object.keys(obj).forEach(key => {
@@ -124,10 +124,11 @@ export async function POST(request) {
 
     if (!response.success) {
       const { errors } = response.error;
+      return NextResponse.json({message: 'Invalid request', errors}, { status: 403})
+      // return NextResponse.json({
+      //   error: { message: "Invalid request", errors }, status: 409
+      // });
 
-      return NextResponse.json({
-        error: { message: "Invalid request", errors },
-      });
     }
       const newItem = await prisma.item.create({data: obj})
       return NextResponse.json(newItem)

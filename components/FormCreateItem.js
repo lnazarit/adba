@@ -6,6 +6,8 @@ import { ITEMS_API } from "@/app/constants/constants";
 import FileUploader from "./FileUploader";
 import DatePicker from "./DatePicker";
 import { useTranslations } from "next-intl";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function FormCreateItem({reloadList}) {
@@ -18,6 +20,16 @@ export default function FormCreateItem({reloadList}) {
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false)
   const t = useTranslations();
+
+  const reset = () => {
+    setTitle('');
+    setUrl('');
+    setContent('');
+    setCategory(null);
+    setDone(false);
+    setDateToDone(null);
+    setFile(null);
+  }
 
   const submit = async (e) => {
     e.preventDefault();
@@ -35,13 +47,18 @@ export default function FormCreateItem({reloadList}) {
         method: 'POST',
         body: data
       });
-      if (!response.ok) {
-        const message = `An error has occured: ${response.status}`;
-        throw new Error(message);
+      if (response.status > 400) {
+        const res = await response.json();
+        res.errors.forEach(e => {
+          toast.error(`${e.code}: ${e.message}`)
+        })
+      } else {
+        toast.success(`Se agregó correctamente el item ${title}`)
       }
       await reloadList();
+      reset();
     } catch(e) {
-      console.log("pedazo de error", e.Error)
+      toast.error(`Error al crear item ${e.message}`)
     } finally {
       setUploading(false)
     }
@@ -53,6 +70,8 @@ export default function FormCreateItem({reloadList}) {
   }
 
   return (
+    <>
+    <ToastContainer theme="dark" />
     <form onSubmit={submit}>
       <h2 className="mb-3">Agregar item</h2>
       <div className="mb-4">
@@ -82,5 +101,6 @@ export default function FormCreateItem({reloadList}) {
       <Button color="primary" isDisabled={uploading || validate()} type="submit">Agregar</Button>
 
     </form>
+    </>
   )
 }

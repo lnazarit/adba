@@ -18,9 +18,7 @@ export async function POST(request) {
     })
 
     if (!newCategory) {
-      return NextResponse.json({
-        message: 'Not found'
-      }, { status: 404})
+      return NextResponse.json({message: 'Not found'}, { status: 404})
     }
     return NextResponse.json(newCategory)
   } catch(err) {
