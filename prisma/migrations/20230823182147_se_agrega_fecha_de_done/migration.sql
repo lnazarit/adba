@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Item" ADD COLUMN "dateDone" DATETIME;
+ALTER TABLE "Item" ADD COLUMN "dateToDone" DATETIME;

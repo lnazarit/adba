@@ -4,6 +4,8 @@ import {Checkbox, Button, Input, Textarea} from "@nextui-org/react";
 import CategoryList from "./CategoryList";
 import { ITEMS_API } from "@/app/constants/constants";
 import FileUploader from "./FileUploader";
+import DatePicker from "./DatePicker";
+import { useTranslations } from "next-intl";
 
 
 export default function FormCreateItem({reloadList}) {
@@ -12,8 +14,10 @@ export default function FormCreateItem({reloadList}) {
   const [content, setContent] = useState('');
   const [categoryId, setCategory] = useState(null);
   const [done, setDone] = useState(false);
+  const [dateToDone, setDateToDone] = useState(null);
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false)
+  const t = useTranslations();
 
   const submit = async (e) => {
     e.preventDefault();
@@ -26,6 +30,7 @@ export default function FormCreateItem({reloadList}) {
       data.set("categoryId", categoryId);
       data.set("done", done)
       data.set("url", url)
+      data.set("dateToDone", dateToDone)
       const response = await fetch(ITEMS_API, {
         method: 'POST',
         body: data
@@ -40,6 +45,11 @@ export default function FormCreateItem({reloadList}) {
     } finally {
       setUploading(false)
     }
+  }
+
+  const validate = () => {
+    if(!categoryId || title === '') return true;
+    return false;
   }
 
   return (
@@ -61,12 +71,15 @@ export default function FormCreateItem({reloadList}) {
       <FileUploader file={file} handleFileChange={(e) => setFile(e)} />
       </div>
       <div className="mb-4">
+        <DatePicker onChange={(date) => setDateToDone(date)} title={t('commons.select_date')} />
+      </div>
+      <div className="mb-4">
         <Checkbox isSelected={done} onValueChange={setDone}>
           DONE
         </Checkbox>
       </div>
 
-      <Button isDisabled={uploading} type="submit">Agregar</Button>
+      <Button color="primary" isDisabled={uploading || validate()} type="submit">Agregar</Button>
 
     </form>
   )

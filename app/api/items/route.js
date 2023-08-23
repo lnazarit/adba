@@ -70,6 +70,7 @@ export async function POST(request) {
   const data = await request.formData();
   const cover = data.get("cover");
   const title = data.get("title");
+  const dateToDone = data.get("dateToDone");
   const url = data.get("url");
   const categoryId = Number(data.get("categoryId"));
   const content = data.get("content");
@@ -87,10 +88,13 @@ export async function POST(request) {
       title,
       content,
       categoryId,
+      dateToDone: dateToDone !== 'null' ? new Date(dateToDone) : null,
       done,
       url,
+      dateDone: done ? new Date() : null,
       cover: cover?.name
     }
+
     Object.keys(obj).forEach(key => {
       if (obj[key] === null || obj[key] === undefined || obj[key] === '') {
         delete obj[key];
@@ -101,6 +105,8 @@ export async function POST(request) {
       title: z.string().min(3),
       cover: z.string(),
       content: z.string().min(3),
+      dateToDone: z.date(),
+      dateDone: z.date(),
       done: z.boolean(),
       categoryId: z.number(),
       url: z.string()

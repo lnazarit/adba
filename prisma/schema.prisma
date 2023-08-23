@@ -24,6 +24,8 @@ model Item {
   done Boolean @default(false)
   category Categories @relation(fields: [categoryId], references: [id])
   categoryId Int
+  dateDone DateTime?
+  dateToDone DateTime?
 }
 
 model Categories {
