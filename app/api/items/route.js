@@ -124,11 +124,7 @@ export async function POST(request) {
 
     if (!response.success) {
       const { errors } = response.error;
-      return NextResponse.json({message: 'Invalid request', errors}, { status: 403})
-      // return NextResponse.json({
-      //   error: { message: "Invalid request", errors }, status: 409
-      // });
-
+      return NextResponse.json({message: 'Invalid request', errors}, { status: 400})
     }
       const newItem = await prisma.item.create({data: obj})
       return NextResponse.json(newItem)

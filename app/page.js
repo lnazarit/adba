@@ -55,7 +55,7 @@ export default function Home() {
             >
               <DropdownItem key="1">Done</DropdownItem>
               <DropdownItem key="0">Not done</DropdownItem>
-              <DropdownItem key="all">All</DropdownItem>  
+              <DropdownItem key="all">All</DropdownItem>
             </DropdownMenu>
           </Dropdown>
           <Search

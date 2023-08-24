@@ -59,6 +59,7 @@ export async function PUT(req, {params}) {
     const categoryId = data.get("categoryId") ? Number(data.get("categoryId")) : null;
     const content = data.get("content");
     const done = data.get("done") === 'true' ? true : false;
+    const doneRes = done ? new Date() : null;
     const obj = {
       title,
       content,
@@ -82,7 +83,7 @@ export async function PUT(req, {params}) {
 
     const res = await prisma.item.update({
       where: { id: Number(params.id) },
-      data: obj
+      data: {...obj, dateDone: doneRes}
     });
 
     if(!res) {
@@ -94,7 +95,7 @@ export async function PUT(req, {params}) {
     return NextResponse.json(res);
 
   } catch(error) {
-    console.log(obj)
+
     if(error instanceof Error) {
       return NextResponse.json({
         message: error.message

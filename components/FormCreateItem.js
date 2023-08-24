@@ -46,7 +46,7 @@ export default function FormCreateItem({reloadList}) {
         method: 'POST',
         body: data
       });
-      if (response.status > 400) {
+      if (response.status > 399) {
         const res = await response.json();
         res.errors.forEach(e => {
           toast.error(`${e.code}: ${e.message}`)

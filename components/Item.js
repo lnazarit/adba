@@ -11,7 +11,7 @@ import {formatDateToDo} from './actionsItem';
 
 export default function Item(props) {
   const {
-    title, content, id, className, reloadList, done, category, cover, dateToDone
+    title, content, id, className, reloadList, done, category, cover, dateToDone, dateDone
   } = props;
   const [isLoading, setLoading] = useState(false);
   const t = useTranslations();
@@ -52,6 +52,7 @@ export default function Item(props) {
           {cover && <Image alt={cover} width="150" height="150" src={`${IMAGES_FOLDER}/${cover}`} />}
         </div>
         <div style={{flex: '1', width: '1%'}}>
+          {dateDone && <small style={{color: 'yellow'}}>Done in: {formatDateToDo(dateDone)}</small>}
       <h3 className="flex">
       <Checkbox isSelected={done} onValueChange={(e) => {
         modifyDone(e)
