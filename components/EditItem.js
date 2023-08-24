@@ -21,17 +21,19 @@ export default function EditItem(props) {
   const [url, setUrl] = useState(props.url);
   const [file, setFile] = useState(props.cover);
   const [categoryId, setCategoryId] = useState(props.category?.id)
+  const [removeCover, setRemoveCover] = useState(null)
 
   const save = onClose => {
     setLoading(true);
     const data = new FormData();
     data.set("cover", file);
-      data.set("title", title);
-      data.set("content", content);
-      data.set("categoryId", categoryId);
-      data.set("done", done)
-      data.set("url", url)
-      data.set("dateToDone", dateToDone)
+    data.set("title", title);
+    data.set("content", content);
+    data.set("categoryId", categoryId);
+    data.set("done", done);
+    data.set("url", url);
+    data.set("dateToDone", dateToDone);
+    if(removeCover) data.set("removeCover", removeCover);
     fetch(`${ITEMS_API}/${props.id}`, {
       method: 'PUT',
       body: data,
@@ -47,13 +49,13 @@ export default function EditItem(props) {
   }
 
   const reset = (cb) => {
-    setTitle('');
-    setUrl('');
-    setContent('');
-    setCategoryId(null);
-    setDone(false);
-    setDateToDone(null);
-    setFile(null);
+    setTitle(props.title);
+    setUrl(props.url);
+    setContent(props.content);
+    setCategoryId(props.category?.id);
+    setDone(props.done);
+    setDateToDone(props.dateToDone);
+    setFile(props.cover);
     cb();
   }
 
@@ -92,14 +94,17 @@ export default function EditItem(props) {
                   value={content}
                   onChange={({target}) => setContent(target.value)}
                 />
-                <FileUploader file={file} handleFileChange={e => setFile(e)} />
+                <FileUploader file={file} handleFileChange={e => {
+                  if(e.destroy) setRemoveCover(e.destroy)
+                  setFile(e.file)
+                }} />
                 <div className="mb-4">
                   <DatePicker onChange={(date) => setDateToDone(date)} title={t('commons.select_date')} />
                 </div>
                 <Input
                   label={t('commons.url')}
                   variant="bordered"
-                  value={url || ''}
+                  value={url}
                   onChange={({target}) => setUrl(target.value)}
                 />
                 <div className="flex py-2 px-1 justify-between">
