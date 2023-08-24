@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { format, formatDistance } from 'date-fns';
+import { format } from 'date-fns';
 import {Popover, PopoverTrigger, PopoverContent, Button} from "@nextui-org/react";
 import { DayPicker } from 'react-day-picker';
 

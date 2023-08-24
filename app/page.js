@@ -67,14 +67,8 @@ export default function Home() {
         {data?.items?.length === 0 && <EmptyView category={category?.name} />}
         {data?.items?.length > 0 && data.items.map(item => {
           return <Item
+            {...item}
             key={item.id}
-            id={item.id}
-            url={item.url}
-            title={item.title}
-            content={item.content}
-            category={item.category}
-            done={item.done}
-            cover={item.cover}
             className="mb-4"
             reloadList={() => loadItems()}
           />

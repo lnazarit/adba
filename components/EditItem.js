@@ -6,6 +6,8 @@ import CategoryList from "./CategoryList";
 import FileUploader from "./FileUploader";
 import { IoMdCreate } from "react-icons/io";
 import { ITEMS_API } from "@/app/constants/constants";
+import { validateFields } from "./actionsItem";
+import DatePicker from "./DatePicker";
 
 export default function EditItem(props) {
   const {reloadList} = props;
@@ -15,19 +17,21 @@ export default function EditItem(props) {
   const [loading, setLoading] = useState(false);
   const [content, setContent] = useState(props.content);
   const [done, setDone] = useState(props.done);
+  const [dateToDone, setDateToDone] = useState(props.dateToDone);
   const [url, setUrl] = useState(props.url);
-  const [cover, setCover] = useState(props.cover);
+  const [file, setFile] = useState(props.cover);
   const [categoryId, setCategoryId] = useState(props.category?.id)
 
   const save = onClose => {
     setLoading(true);
     const data = new FormData();
-    data.set("cover", cover);
-    data.set("title", title);
-    data.set("url", url);
-    data.set("content", content);
-    data.set("categoryId", categoryId);
-    data.set("done", done)
+    data.set("cover", file);
+      data.set("title", title);
+      data.set("content", content);
+      data.set("categoryId", categoryId);
+      data.set("done", done)
+      data.set("url", url)
+      data.set("dateToDone", dateToDone)
     fetch(`${ITEMS_API}/${props.id}`, {
       method: 'PUT',
       body: data,
@@ -40,6 +44,17 @@ export default function EditItem(props) {
     .finally(() => {
       setLoading(false);
     })
+  }
+
+  const reset = (cb) => {
+    setTitle('');
+    setUrl('');
+    setContent('');
+    setCategoryId(null);
+    setDone(false);
+    setDateToDone(null);
+    setFile(null);
+    cb();
   }
 
   return (
@@ -77,7 +92,10 @@ export default function EditItem(props) {
                   value={content}
                   onChange={({target}) => setContent(target.value)}
                 />
-                <FileUploader file={cover} handleFileChange={e => setCover(e)} />
+                <FileUploader file={file} handleFileChange={e => setFile(e)} />
+                <div className="mb-4">
+                  <DatePicker onChange={(date) => setDateToDone(date)} title={t('commons.select_date')} />
+                </div>
                 <Input
                   label={t('commons.url')}
                   variant="bordered"
@@ -97,10 +115,10 @@ export default function EditItem(props) {
                 </div>
               </ModalBody>
               <ModalFooter>
-                <Button variant="flat" onPress={onClose}>
+                <Button variant="flat"  onPress={() => reset(onClose)}>
                   {t('commons.cancel')}
                 </Button>
-                <Button color="primary" onPress={() => save(onClose)}>
+                <Button color="primary" isDisabled={loading || validateFields(categoryId, title)} onPress={() => save(onClose)}>
                   {t('commons.save')}
                 </Button>
               </ModalFooter>

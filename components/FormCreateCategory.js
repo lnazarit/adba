@@ -36,8 +36,7 @@ export default function FormCreateCategory({reloadList}) {
 
   const submit = (e) => {
     e.preventDefault();
-      save(name, slug);
-      // await reloadList();
+    save(name, slug);
   }
 
   return (

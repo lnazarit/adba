@@ -9,6 +9,7 @@
     "content:": "Content",
     "cover": "Cover",
     "delete": "Delete",
+    "delete_item": "Are you sure delete this item?",
     "description": "Description",
     "dashboard": "Dashboard",
     "edit": "Edit",

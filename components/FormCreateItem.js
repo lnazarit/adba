@@ -6,15 +6,14 @@ import { ITEMS_API } from "@/app/constants/constants";
 import FileUploader from "./FileUploader";
 import DatePicker from "./DatePicker";
 import { useTranslations } from "next-intl";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { validateFields } from "./actionsItem";
 
 
 export default function FormCreateItem({reloadList}) {
   const [title, setTitle] = useState('');
   const [url, setUrl] = useState('');
   const [content, setContent] = useState('');
-  const [categoryId, setCategory] = useState(null);
+  const [categoryId, setCategoryId] = useState(null);
   const [done, setDone] = useState(false);
   const [dateToDone, setDateToDone] = useState(null);
   const [file, setFile] = useState(null);
@@ -25,7 +24,7 @@ export default function FormCreateItem({reloadList}) {
     setTitle('');
     setUrl('');
     setContent('');
-    setCategory(null);
+    setCategoryId(null);
     setDone(false);
     setDateToDone(null);
     setFile(null);
@@ -64,18 +63,12 @@ export default function FormCreateItem({reloadList}) {
     }
   }
 
-  const validate = () => {
-    if(!categoryId || title === '') return true;
-    return false;
-  }
-
   return (
     <>
-    <ToastContainer theme="dark" />
     <form onSubmit={submit}>
       <h2 className="mb-3">Agregar item</h2>
       <div className="mb-4">
-        <CategoryList callback={(category) => setCategory(category.id)} />
+        <CategoryList callback={(category) => setCategoryId(category.id)} />
       </div>
       <div className="mb-4">
         <Input label="Title" type="text" name="title" value={title} onChange={({target}) => setTitle(target.value)} />
@@ -98,7 +91,7 @@ export default function FormCreateItem({reloadList}) {
         </Checkbox>
       </div>
 
-      <Button color="primary" isDisabled={uploading || validate()} type="submit">Agregar</Button>
+      <Button color="primary" isDisabled={uploading || validateFields(categoryId, title)} type="submit">Agregar</Button>
 
     </form>
     </>

@@ -6,11 +6,12 @@ import { IoIosClose } from "react-icons/io";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import EditItem from "./EditItem";
+import {formatDateToDo} from './actionsItem';
 
 
 export default function Item(props) {
   const {
-    title, content, id, className, reloadList, done, category, cover
+    title, content, id, className, reloadList, done, category, cover, dateToDone
   } = props;
   const [isLoading, setLoading] = useState(false);
   const t = useTranslations();
@@ -20,7 +21,7 @@ export default function Item(props) {
     fetch(`${ITEMS_API}/${id}`, {
       method: 'DELETE'
     }).then(() => {
-      alert("se borro");
+      toast.success(`Se borro exitosamente ${title}`);
       reloadList();
 
     }).catch((err) => {
@@ -57,7 +58,8 @@ export default function Item(props) {
       }}>
       </Checkbox><span> {title}</span></h3>
       <small className="block" style={{textOverflow: 'ellipsis',overflow: 'hidden', whiteSpace: 'nowrap'}}>{content}</small>
-      <Chip size="sm">{category.name}</Chip>
+      <Chip size="sm" className="mb-3">{category.name}</Chip>
+      <p>Date to do: {formatDateToDo(dateToDone)}</p>
       </div>
       <EditItem reloadList={reloadList} {...props} />
       <Tooltip content={t('commons.delete')}>
@@ -66,7 +68,11 @@ export default function Item(props) {
           isIconOnly
           isLoading={isLoading}
           isDisabled={isLoading}
-          onClick={() => deleteItem(id)}
+          onClick={() => {
+            if(window.confirm(t('commons.delete_item'))) {
+              deleteItem(id)
+            }
+          }}
           >
             <IoIosClose />
         </Button>

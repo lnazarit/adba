@@ -5,7 +5,6 @@ import { useFetch } from "@/services/useFetch";
 import { useTranslations } from "next-intl";
 import {IoIosCheckmarkCircleOutline, IoIosCheckmarkCircle} from 'react-icons/io';
 
-
 export default function DashboardBox({category}) {
   const t = useTranslations();
   const {data, loading, error} = useFetch(`${ITEMS_API}?category=${category.id.toString()}&per_page=20`);
