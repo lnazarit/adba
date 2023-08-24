@@ -8,8 +8,6 @@ import ChangeLang from '@/components/ChangeLang';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
-
 export default function ProviderLocale({children}) {
   const [locale, setLocale] = useState('en');
   const {messages} = useLang(locale);
