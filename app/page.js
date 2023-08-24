@@ -23,6 +23,7 @@ export default function Home() {
   const loadItems = () => {
     setRefresh((prev) => !prev);
   }
+
   return (
       <main style={{margin: '0 auto', width: '50%', padding: '4rem 0'}}>
         <h1>{t('main_title')}</h1>
