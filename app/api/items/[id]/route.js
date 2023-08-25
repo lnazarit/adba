@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/libs/prisma"
-import { writeFile, unlink, existsSync } from "fs/promises";
+import { writeFile, unlink } from "fs/promises";
+import { existsSync } from 'fs';
 import path from "path";
 
 export async function GET(request, {params}) {
@@ -78,15 +79,20 @@ export async function PUT(req, {params}) {
         delete obj[key];
       }
     });
+  console.log(removeCover);
   try {
     if(cover && typeof cover !== 'string' && typeof cover !== null && typeof cover !== undefined) {
       const filePath = path.join(process.cwd(), "public/assets", cover.name);
       const bytes = await cover.arrayBuffer();
       const buffer = Buffer.from(bytes);
       await writeFile(filePath, buffer);
-    } else if(removeCover !== 'null') {
-      const filePath = path.join(process.cwd(), "public/assets", removeCover);
-      await unlink(filePath);
+    } else if(removeCover) {
+      console.log("remove cover bien")
+      if(existsSync(`public/assets/${removeCover}`)){
+        console.log("remove cover bien coverrrr")
+        const filePath = path.join(process.cwd(), "public/assets", removeCover);
+        await unlink(filePath);
+      }
     }
     const res = await prisma.item.update({
       where: { id: Number(params.id) },

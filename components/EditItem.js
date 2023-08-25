@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Modal, ModalContent, ModalHeader, ModalBody,
   ModalFooter, Button, useDisclosure, Checkbox, Input, Textarea, Tooltip} from "@nextui-org/react";
 import { useTranslations } from "next-intl";
@@ -33,7 +33,9 @@ export default function EditItem(props) {
     data.set("done", done);
     data.set("url", url);
     data.set("dateToDone", dateToDone);
+
     if(removeCover) data.set("removeCover", removeCover);
+
     fetch(`${ITEMS_API}/${props.id}`, {
       method: 'PUT',
       body: data,
@@ -56,8 +58,12 @@ export default function EditItem(props) {
     setDone(props.done);
     setDateToDone(props.dateToDone);
     setFile(props.cover);
-    cb();
+    if(cb) cb();
   }
+
+  useEffect(() => {
+    reset();
+  }, [props]);
 
   return (
     <>
@@ -95,7 +101,8 @@ export default function EditItem(props) {
                   onChange={({target}) => setContent(target.value)}
                 />
                 <FileUploader file={file} handleFileChange={e => {
-                  if(e.destroy) setRemoveCover(e.destroy)
+                  console.log(e);
+                  setRemoveCover(e.destroy ? e.destroy : null)
                   setFile(e.file)
                 }} />
                 <div className="mb-4">
