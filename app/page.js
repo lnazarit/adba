@@ -49,26 +49,6 @@ export default function Home() {
               setParamsUrl({...obj})
             }} />
           </div>
-          {/* <div className='ml-2'>
-          <Dropdown>
-            <DropdownTrigger>
-              <Button variant="bordered">{done}</Button>
-            </DropdownTrigger>
-            <DropdownMenu
-              aria-label="Static Actions"
-              onAction={(key, algo) => {
-                setDone(key)
-                const obj = {...paramsUrl}
-                if(done) obj.done = key;
-                setParamsUrl({...obj})
-              }}
-            >
-              <DropdownItem key="1">Done</DropdownItem>
-              <DropdownItem key="0">Not done</DropdownItem>
-              <DropdownItem key="all">All</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-          </div> */}
           <Search
             callback={(search) => setParamsUrl({...paramsUrl, search})}
           />
