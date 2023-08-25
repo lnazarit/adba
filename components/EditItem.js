@@ -100,11 +100,12 @@ export default function EditItem(props) {
                   value={content}
                   onChange={({target}) => setContent(target.value)}
                 />
-                <FileUploader file={file} handleFileChange={e => {
-                  console.log(e);
-                  setRemoveCover(e.destroy ? e.destroy : null)
-                  setFile(e.file)
-                }} />
+                <div className="mb-4">
+                  <FileUploader file={file} handleFileChange={e => {
+                    setRemoveCover(e.destroy ? e.destroy : null)
+                    setFile(e.file)
+                  }} />
+                </div>
                 <div className="mb-4">
                   <DatePicker onChange={(date) => setDateToDone(date)} title={t('commons.select_date')} />
                 </div>
