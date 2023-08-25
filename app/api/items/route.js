@@ -29,10 +29,10 @@ export async function GET(req) {
   if(category) obj.categoryId = parseInt(category)
   if(done) {
     let doneVar;
-    if(done === "1") doneVar = true;
-    if(done === "0") doneVar = false;
+    if(done === "done") doneVar = true;
+    if(done === "not_done") doneVar = false;
     obj.done = doneVar;
-    if(done === "null") delete obj.done;
+    if(done === "all") delete obj.done;
   }
   if(search !== '' && search !== null) {
     obj.title = {

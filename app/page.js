@@ -10,12 +10,13 @@ import Pagination from '@/components/Pagination';
 import EmptyView from '@/components/EmptyView';
 import Search from '@/components/Search';
 import { ITEMS_API } from '@/app/constants/constants';
+import FilterDone from '@/components/FilterDone';
 
 export default function Home() {
 
   const [refresh, setRefresh] = useState(true);
   const [category, setCategory] = useState(null);
-  const [done, setDone] = useState(null);
+  const [done, setDone] = useState('all');
   const [paramsUrl, setParamsUrl] = useState(null);
   const {data, loading, error} = useFetch(ITEMS_API, paramsUrl, refresh);
   const t = useTranslations();
@@ -40,13 +41,22 @@ export default function Home() {
             }
           }
           />
+          <div className='ml-2'>
+            <FilterDone callback={(key) => {
+              setDone(key)
+              const obj = {...paramsUrl}
+              if(done) obj.done = key;
+              setParamsUrl({...obj})
+            }} />
+          </div>
+          {/* <div className='ml-2'>
           <Dropdown>
             <DropdownTrigger>
-              <Button variant="bordered">Done</Button>
+              <Button variant="bordered">{done}</Button>
             </DropdownTrigger>
             <DropdownMenu
               aria-label="Static Actions"
-              onAction={(key) => {
+              onAction={(key, algo) => {
                 setDone(key)
                 const obj = {...paramsUrl}
                 if(done) obj.done = key;
@@ -58,6 +68,7 @@ export default function Home() {
               <DropdownItem key="all">All</DropdownItem>
             </DropdownMenu>
           </Dropdown>
+          </div> */}
           <Search
             callback={(search) => setParamsUrl({...paramsUrl, search})}
           />
