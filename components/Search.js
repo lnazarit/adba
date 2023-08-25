@@ -7,12 +7,12 @@ import { IoIosClose } from "react-icons/io";
 
 export default function Search({ callback }) {
   const t = useTranslations();
-  const [searchTerm, setSearchTerm] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
   const debounceSearch = useDebounce(searchTerm, 300);
   const cb = useCallback(callback, [callback]);
 
   useEffect(() => {
-    if(searchTerm !== null) cb(debounceSearch);
+    cb(debounceSearch);
   }, [debounceSearch]);
 
   return (
@@ -25,7 +25,7 @@ export default function Search({ callback }) {
           setSearchTerm(target.value);
         }}
       />
-      {searchTerm !== null && searchTerm !== "" && <Button
+      {searchTerm !== "" && <Button
         style={{position: 'absolute', right: 12, top: 6, padding: '3px', minWidth: 0, width: 25, height: 25}}
         className="btn-close"
         isIconOnly

@@ -42,7 +42,7 @@ export default function FileUploader({file, handleFileChange}) {
   }
   const form = (
     <div className="p-5 border border-radius">
-      <label className="block mb-2" for={id}>Select cover for your item</label>
+      <label className="block mb-2" htmlFor={id}>Select cover for your item</label>
       <input id={id} type="file" onChange={(e) => {
         if (!e.target.files?.[0]) return;
         handleFileChange({file: e.target.files?.[0], ...fileExist});
