@@ -1,48 +1,24 @@
 "use client";
 import {useState, useEffect} from 'react';
 import { useFetch } from "@/services/useFetch";
-import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
 import { CATEGORIES_API } from '@/app/constants/constants';
+import DropdownSelect from './DropdownSelect';
 
-export default function CategoryList({callback, showAll = false, name}) {
-  const obj = {name: 'All', slug: 'all', id: 0}
+export default function CategoryList({callback, showAll = false, label}) {
+  const obj = {name: 'All', slug: 'all', id: 0, key: 'all'}
   const {data, loading, error} = useFetch(CATEGORIES_API)
-  const [title, setTitle] = useState('Select a category');
 
-  useEffect(() => {
-    if(data) {
-      const selected = data.find((e) => e.id === name);
-      if(selected) setTitle(selected.name)
-    }
-  }, [name, data])
 
   if(loading) return <p>Loading...</p>
   if(error) return <p>Error</p>
+
+  const parseMap = data.map(e => ({...e, key: e.slug}))
+
   return (
-    <Dropdown>
-      <DropdownTrigger>
-        <Button
-          variant="bordered"
-        >
-          {title}
-        </Button>
-      </DropdownTrigger>
-      {data && <DropdownMenu
-        aria-label="Dynamic Actions"
-        items={showAll ? [...data, obj] : data}
-      >
-      {(item) => (
-          <DropdownItem
-            key={item.slug}
-            onClick={() => {
-              setTitle(item.name);
-              callback(item.id !== 0 ? {name: item.name, id: item.id} : null)
-            }}
-          >
-            {item.name}
-          </DropdownItem>
-        )}
-      </DropdownMenu>}
-    </Dropdown>
-  );
+    <DropdownSelect
+      label={label}
+      callback={(item) => callback(parseMap.find(e => e.key === item))}
+      items={showAll ? [obj,...parseMap] : parseMap}
+    />
+  )
 }

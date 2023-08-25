@@ -3,6 +3,6 @@ const arr = [{name: 'All', key:"all"}, {name: 'Done', key:"done"}, {name: 'Not d
 
 export default function FilterDone({callback}) {
   return (
-    <DropdownSelect items={arr} callback={callback} />
+    <DropdownSelect label="Done" items={arr} callback={callback} />
   )
 }

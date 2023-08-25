@@ -29,9 +29,10 @@ export default function Home() {
       <main style={{margin: '0 auto', width: '50%', padding: '4rem 0'}}>
         <h1>{t('main_title')}</h1>
         <h3 className="mb-4">{t('items')} {data?.meta.total_items}:</h3>
-        <div className='mb-4 flex'>
+        <div className='mb-4 flex items-end'>
           <CategoryList
             showAll
+            label={'Category'}
             callback={(category) => {
               setCategory(category)
               const obj = {...paramsUrl}
