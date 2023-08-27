@@ -3,6 +3,9 @@
   "items": "items",
   "error_load": "It was an unexpected error to load",
   "loading": "Loading",
+  "category": {
+    "select_category": "Select category"
+  },
   "commons": {
     "back": "Back",
     "cancel": "Cancel",

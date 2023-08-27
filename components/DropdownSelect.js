@@ -1,8 +1,14 @@
 import React, {useState, useMemo} from "react";
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
+import { Placeholder } from "react-bootstrap";
 
-export default function DropdownSelect({items, selected, callback, label}) {
-  const [selectedKeys, setSelectedKeys] = useState(new Set([selected || items[0].key]));
+export default function DropdownSelect({items, selected, callback, label, placeholder}) {
+  const selectItem = () => {
+    if(selected) return selected;
+    if(placeholder) return placeholder;
+    return items[0].key
+  }
+  const [selectedKeys, setSelectedKeys] = useState(new Set([selectItem()]));
 
   const selectedValue = useMemo(
     () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
@@ -16,7 +22,6 @@ export default function DropdownSelect({items, selected, callback, label}) {
         <DropdownTrigger>
           <Button
             variant="bordered"
-            className="capitalize"
           >
             {selectedValue}
           </Button>

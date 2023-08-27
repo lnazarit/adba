@@ -80,6 +80,7 @@ export default function EditItem(props) {
         </Button>
       </Tooltip>
       <Modal
+        size="xl"
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         placement="top-center"
@@ -89,7 +90,9 @@ export default function EditItem(props) {
             <>
               <ModalHeader className="flex flex-col gap-1">Edit {title}</ModalHeader>
               <ModalBody>
-                <CategoryList name={categoryId} callback={(category) => setCategoryId(category.id)} />
+                <CategoryList
+                  selected={categoryId}
+                  callback={(category) => setCategoryId(category.id)} />
                 <Input
                   autoFocus
                   label={t('commons.title')}

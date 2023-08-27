@@ -3,7 +3,7 @@ import { useTranslations } from "next-intl";
 
 export default function Rate(props) {
   const t = useTranslations();
-  const {label = t('commons.priority'), size = 10, selected = 1, callback} = props;
+  const {label = t('commons.priority'), size = 5, selected = 1, callback} = props;
 
   const [rating, setRating] = useState(selected);
   const [hover, setHover] = useState(selected);

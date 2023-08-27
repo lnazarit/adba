@@ -76,7 +76,7 @@ export default function Item(props) {
       <small className="block" style={{textOverflow: 'ellipsis',overflow: 'hidden', whiteSpace: 'nowrap'}}>{content}</small>
       <Chip size="sm" className="mb-3">{category.name}</Chip>
       <p>Date to do: {formatDateToDo(dateToDone)}</p>
-      <p>{[...Array(priority)].map(e => <span key={e} className="star">&#9733;</span>)}</p>
+      <p>{[...Array(priority)].map((e, index) => index + 1).map((item) => <span key={item} className="star">&#9733;</span>)}</p>
       </div>
       <EditItem reloadList={reloadList} {...props} />
       <Tooltip content={t('commons.delete')}>
