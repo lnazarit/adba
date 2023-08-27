@@ -1,6 +1,5 @@
 import React, {useState, useMemo} from "react";
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
-import { Placeholder } from "react-bootstrap";
 
 export default function DropdownSelect({items, selected, callback, label, placeholder}) {
   const selectItem = () => {
