@@ -79,7 +79,7 @@ export async function PUT(req, {params}) {
         delete obj[key];
       }
     });
-  console.log(removeCover);
+
   try {
     if(cover && typeof cover !== 'string' && typeof cover !== null && typeof cover !== undefined) {
       const filePath = path.join(process.cwd(), "public/assets", cover.name);
@@ -87,9 +87,7 @@ export async function PUT(req, {params}) {
       const buffer = Buffer.from(bytes);
       await writeFile(filePath, buffer);
     } else if(removeCover) {
-      console.log("remove cover bien")
       if(existsSync(`public/assets/${removeCover}`)){
-        console.log("remove cover bien coverrrr")
         const filePath = path.join(process.cwd(), "public/assets", removeCover);
         await unlink(filePath);
       }

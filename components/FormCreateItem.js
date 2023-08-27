@@ -80,7 +80,7 @@ export default function FormCreateItem({reloadList}) {
         <Input label="Url" type="text" name="title" value={url} onChange={({target}) => setUrl(target.value)} />
       </div>
       <div className="mb-4">
-      <FileUploader file={file} handleFileChange={(e) => setFile(e)} />
+      <FileUploader file={file} handleFileChange={(e) => setFile(e.file)} />
       </div>
       <div className="mb-4">
         <DatePicker onChange={(date) => setDateToDone(date)} title={t('commons.select_date')} />

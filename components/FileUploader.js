@@ -31,9 +31,7 @@ export default function FileUploader({file, handleFileChange}) {
     )
   }
 
-  const conditionalImage = () => {
-    return file === null || file === '' || file?.destroy
-  }
+  const conditionalImage = () => file === null || file === '' || file?.destroy
 
   const resultImage = () => {
     if(conditionalImage()) return null

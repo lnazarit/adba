@@ -1,7 +1,7 @@
 "use client";
 import React, {useState} from "react";
 import {Button, Checkbox, Tooltip, Chip} from "@nextui-org/react";
-import { ITEMS_API, IMAGES_FOLDER } from "@/app/constants/constants";
+import { ITEMS_API, IMAGES_FOLDER, FILES_API } from "@/app/constants/constants";
 import { IoIosClose } from "react-icons/io";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
@@ -16,16 +16,31 @@ export default function Item(props) {
   const [isLoading, setLoading] = useState(false);
   const t = useTranslations();
 
-  const deleteItem = (id)  => {
+  const removeFile = () => {
+    fetch(FILES_API, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({cover})
+    }).then(e => console.log(e))
+    .catch((err) => console.log(err));
+  }
+
+  const deleteItem = ()  => {
     setLoading(true)
     fetch(`${ITEMS_API}/${id}`, {
       method: 'DELETE'
     }).then(() => {
       toast.success(`Se borro exitosamente ${title}`);
+      if(cover) removeFile()
       reloadList();
 
     }).catch((err) => {
       console.log("ERROR", err)
+    })
+    .finally(() => {
       setLoading(false);
     })
   }
@@ -63,6 +78,7 @@ export default function Item(props) {
       <p>Date to do: {formatDateToDo(dateToDone)}</p>
       </div>
       <EditItem reloadList={reloadList} {...props} />
+      <button onClick={() => removeFile()}>borr</button>
       <Tooltip content={t('commons.delete')}>
         <Button
           className="btn-close ml-2"
@@ -71,7 +87,7 @@ export default function Item(props) {
           isDisabled={isLoading}
           onClick={() => {
             if(window.confirm(t('commons.delete_item'))) {
-              deleteItem(id)
+              deleteItem()
             }
           }}
           >
