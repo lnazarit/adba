@@ -70,6 +70,7 @@ export async function POST(request) {
   const data = await request.formData();
   const cover = data.get("cover");
   const title = data.get("title");
+  const priority = data.get("priority");
   const dateToDone = data.get("dateToDone");
   const url = data.get("url");
   const categoryId = Number(data.get("categoryId"));
@@ -88,6 +89,7 @@ export async function POST(request) {
       title,
       content,
       categoryId,
+      priority: priority ? Number(priority) : null,
       dateToDone: dateToDone !== 'null' ? new Date(dateToDone) : null,
       done,
       url,
@@ -109,7 +111,8 @@ export async function POST(request) {
       dateDone: z.date(),
       done: z.boolean(),
       categoryId: z.number(),
-      url: z.string()
+      url: z.string(),
+      priority: z.number()
     }
 
     Object.keys(objSchema).forEach(key => {

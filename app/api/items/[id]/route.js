@@ -57,6 +57,7 @@ export async function PUT(req, {params}) {
     const cover = data.get("cover");
     const title = data.get("title");
     const url = data.get("url");
+    const priority = data.get("priority");
     const categoryId = data.get("categoryId") ? Number(data.get("categoryId")) : null;
     const content = data.get("content");
     const removeCover = data.get("removeCover");
@@ -71,6 +72,7 @@ export async function PUT(req, {params}) {
       content,
       categoryId,
       done,
+      priority: priority ? Number(priority) : null,
       url,
       cover: coverProcess()
     }

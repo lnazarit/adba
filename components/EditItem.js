@@ -8,6 +8,7 @@ import { IoMdCreate } from "react-icons/io";
 import { ITEMS_API } from "@/app/constants/constants";
 import { validateFields } from "./actionsItem";
 import DatePicker from "./DatePicker";
+import Rate from "./Rate";
 
 export default function EditItem(props) {
   const {reloadList} = props;
@@ -22,11 +23,13 @@ export default function EditItem(props) {
   const [file, setFile] = useState(props.cover);
   const [categoryId, setCategoryId] = useState(props.category?.id)
   const [removeCover, setRemoveCover] = useState(null)
+  const [priority, setPriority] = useState(props.priority)
 
   const save = onClose => {
     setLoading(true);
     const data = new FormData();
     data.set("cover", file);
+    data.set("priority", priority);
     data.set("title", title);
     data.set("content", content);
     data.set("categoryId", categoryId);
@@ -126,6 +129,7 @@ export default function EditItem(props) {
                     DONE
                   </Checkbox>
                 </div>
+                <Rate callback={e => setPriority(Number(e))} />
               </ModalBody>
               <ModalFooter>
                 <Button variant="flat"  onPress={() => reset(onClose)}>

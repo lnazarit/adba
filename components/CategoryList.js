@@ -1,5 +1,5 @@
 "use client";
-import {useState, useEffect} from 'react';
+import {useEffect} from 'react';
 import { useFetch } from "@/services/useFetch";
 import { CATEGORIES_API } from '@/app/constants/constants';
 import DropdownSelect from './DropdownSelect';

@@ -95,7 +95,7 @@ export default function FormCreateItem({reloadList}) {
         </Checkbox>
       </div>
 
-      <Rate label={t('commons.priority')} callback={e => setPriority(Number(e))} /> 
+      <Rate selected={priority} callback={e => setPriority(e)} />
 
       <Button color="primary" isDisabled={uploading || validateFields(categoryId, title)} type="submit">Agregar</Button>
 
