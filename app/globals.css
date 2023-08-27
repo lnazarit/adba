@@ -141,3 +141,20 @@ input[type=file]::file-selector-button:hover {
     opacity: 0;
   }
 }
+
+
+/* RATE */
+
+button.star-button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.on {
+  color: orangered;
+}
+.off {
+  color: #333;
+}

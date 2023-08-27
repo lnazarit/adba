@@ -7,6 +7,7 @@ import FileUploader from "./FileUploader";
 import DatePicker from "./DatePicker";
 import { useTranslations } from "next-intl";
 import { validateFields } from "./actionsItem";
+import Rate from "./Rate";
 
 
 export default function FormCreateItem({reloadList}) {
@@ -17,7 +18,8 @@ export default function FormCreateItem({reloadList}) {
   const [done, setDone] = useState(false);
   const [dateToDone, setDateToDone] = useState(null);
   const [file, setFile] = useState(null);
-  const [uploading, setUploading] = useState(false)
+  const [uploading, setUploading] = useState(false);
+  const [priority, setPriority] = useState(1);
   const t = useTranslations();
 
   const reset = () => {
@@ -28,6 +30,7 @@ export default function FormCreateItem({reloadList}) {
     setDone(false);
     setDateToDone(null);
     setFile(null);
+    setPriority(1)
   }
 
   const submit = async (e) => {
@@ -39,9 +42,10 @@ export default function FormCreateItem({reloadList}) {
       data.set("title", title);
       data.set("content", content);
       data.set("categoryId", categoryId);
-      data.set("done", done)
-      data.set("url", url)
-      data.set("dateToDone", dateToDone)
+      data.set("done", done);
+      data.set("url", url);
+      data.set("dateToDone", dateToDone);
+      data.set("priority", priority);
       const response = await fetch(ITEMS_API, {
         method: 'POST',
         body: data
@@ -90,6 +94,8 @@ export default function FormCreateItem({reloadList}) {
           DONE
         </Checkbox>
       </div>
+
+      <Rate label={t('commons.priority')} callback={e => setPriority(Number(e))} /> 
 
       <Button color="primary" isDisabled={uploading || validateFields(categoryId, title)} type="submit">Agregar</Button>
 

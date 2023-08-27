@@ -24,6 +24,7 @@ model Item {
   done Boolean @default(false)
   category Categories @relation(fields: [categoryId], references: [id])
   categoryId Int
+  priority Int @default(1)
   dateDone DateTime?
   dateToDone DateTime?
 }
