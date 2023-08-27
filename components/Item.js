@@ -78,7 +78,6 @@ export default function Item(props) {
       <p>Date to do: {formatDateToDo(dateToDone)}</p>
       </div>
       <EditItem reloadList={reloadList} {...props} />
-      {/* <button onClick={() => removeFile()}>borr</button> */}
       <Tooltip content={t('commons.delete')}>
         <Button
           className="btn-close ml-2"
