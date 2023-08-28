@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useCallback} from "react";
+import { useState, useEffect, useCallback, useRef} from "react";
 import { Button, Input } from "@nextui-org/react";
 import { useDebounce } from "@/app/hooks";
 import { useTranslations } from "next-intl";
@@ -11,8 +11,14 @@ export default function Search({ callback }) {
   const debounceSearch = useDebounce(searchTerm, 300);
   const cb = useCallback(callback, [callback]);
 
+  const node = useRef(null)
+
   useEffect(() => {
-    cb(debounceSearch);
+    if(node.current) {
+      cb(debounceSearch);
+    } else {
+      node.current = true;
+    }
   }, [debounceSearch]);
 
   return (

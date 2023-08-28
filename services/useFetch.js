@@ -1,7 +1,5 @@
 import {useState, useEffect} from 'react';
 
-
-
 export const useFetch = (url, params, refresh) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -10,9 +8,9 @@ export const useFetch = (url, params, refresh) => {
 
   const fetching = () => {
     if(params) {
-      Object.entries(params).forEach(e => {
-        urlFetch.searchParams.set([e[0]], e[1]);
-      })
+      params.forEach((value, key) => {
+        urlFetch.searchParams.set(key, value);
+      });
     }
     fetch(urlFetch)
     .then(res => res.json())
