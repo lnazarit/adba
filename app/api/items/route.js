@@ -11,7 +11,7 @@ export async function GET(req) {
   const done = searchParams.get("done");
   const priority = searchParams.get("priority");
   const search = searchParams.get("search");
-  const PER_PAGE = Math.max(Number(searchParams.get('per_page') || 3), 3);
+  const PER_PAGE = Math.max(Number(searchParams.get('per_page') || 10), 10);
 
   let items = await prisma.item.findMany(!search && {
     take: PER_PAGE,
