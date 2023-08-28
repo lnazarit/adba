@@ -16,8 +16,6 @@ export default function Home() {
 
   const [refresh, setRefresh] = useState(true);
   const [category, setCategory] = useState(null);
-  const [done, setDone] = useState('all');
-  const [priority, setPriority] = useState(null);
   const [paramsUrl, setParamsUrl] = useState(null);
   const {data, loading, error} = useFetch(ITEMS_API, paramsUrl, refresh);
   const t = useTranslations();
@@ -45,17 +43,17 @@ export default function Home() {
           />
           <div className='ml-2'>
             <FilterDone callback={(key) => {
-              setDone(key)
               const obj = {...paramsUrl}
-              if(done) obj.done = key;
+              if(key !== 'all') obj.done = key;
+              else delete obj.done;
               setParamsUrl({...obj})
             }} />
           </div>
           <div className='ml-2'>
             <FilterRate callback={(key) => {
-              setPriority(key)
               const obj = {...paramsUrl}
-              if(priority) obj.priority = key;
+              if(key !== 'all') obj.priority = key;
+              else delete obj.priority;
               setParamsUrl({...obj})
             }} />
           </div>

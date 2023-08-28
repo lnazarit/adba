@@ -6,7 +6,7 @@ export default function FilterRate({callback}) {
   return (
     <DropdownSelect
       label="Rate"
-      items={[{name: 'All', key:"all"}, ...arr]}
+      items={[{name: 'All', key:"all", value: 'all'}, ...arr]}
       callback={(e) => callback(e.value)}
     />
   )
