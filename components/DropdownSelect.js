@@ -32,7 +32,7 @@ export default function DropdownSelect({items, selected, callback, label, placeh
           selectionMode="single"
           selectedKeys={selectedKeys}
           onAction={(e) => {
-            if(callback) callback(e);
+            if(callback) callback(items.find(item => item.key === e));
           }}
           onSelectionChange={setSelectedKeys}
         >

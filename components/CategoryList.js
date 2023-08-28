@@ -19,14 +19,14 @@ export default function CategoryList({callback, showAll = false, label, selected
     return parseMap?.find(e => e.id === selected)?.slug;
   }
 
-  if(selected) console.log(parseSelected())
-
   return (
     <DropdownSelect
       label={label}
       selected={parseSelected()}
       placeholder={!showAll ? t('category.select_category') : null}
-      callback={(item) => callback(parseMap.find(e => e.key === item))}
+      callback={(item) => {
+        callback(item)
+      }}
       items={showAll ? [obj,...parseMap] : parseMap}
     />
   )

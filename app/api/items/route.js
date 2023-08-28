@@ -27,7 +27,11 @@ export async function GET(req) {
   const total = await prisma.item.count();
 
   const obj = {}
-  if(category) obj.categoryId = parseInt(category)
+  if(category && category !== '0') {
+    obj.categoryId = parseInt(category)
+  } else {
+    delete obj.categoryId
+  }
   if(done) {
     let doneVar;
     if(done === "done") doneVar = true;
