@@ -9,6 +9,7 @@ export async function GET(req) {
   const currentPage = Math.max(Number(searchParams.get('page') || 1), 1)
   const category = searchParams.get("category");
   const done = searchParams.get("done");
+  const priority = searchParams.get("priority");
   const search = searchParams.get("search");
   const PER_PAGE = Math.max(Number(searchParams.get('per_page') || 3), 3);
 
@@ -41,8 +42,9 @@ export async function GET(req) {
   } else {
     delete obj.search
   }
+  if(priority) obj.priority = parseInt(priority);
 
-  if(category || search || done) {
+  if(category || search || done || priority) {
     items = await prisma.item.findMany({
       where: {
         ...obj

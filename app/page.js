@@ -2,7 +2,6 @@
 import {useState} from 'react';
 import {useTranslations} from 'next-intl';
 import FormCreateItem from "@/components/FormCreateItem";
-import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
 import Item from '@/components/Item';
 import { useFetch } from '@/services/useFetch';
 import CategoryList from '@/components/CategoryList';
@@ -11,12 +10,14 @@ import EmptyView from '@/components/EmptyView';
 import Search from '@/components/Search';
 import { ITEMS_API } from '@/app/constants/constants';
 import FilterDone from '@/components/FilterDone';
+import FilterRate from '@/components/FilterRate';
 
 export default function Home() {
 
   const [refresh, setRefresh] = useState(true);
   const [category, setCategory] = useState(null);
   const [done, setDone] = useState('all');
+  const [priority, setPriority] = useState(null);
   const [paramsUrl, setParamsUrl] = useState(null);
   const {data, loading, error} = useFetch(ITEMS_API, paramsUrl, refresh);
   const t = useTranslations();
@@ -47,6 +48,14 @@ export default function Home() {
               setDone(key)
               const obj = {...paramsUrl}
               if(done) obj.done = key;
+              setParamsUrl({...obj})
+            }} />
+          </div>
+          <div className='ml-2'>
+            <FilterRate callback={(key) => {
+              setPriority(key)
+              const obj = {...paramsUrl}
+              if(priority) obj.priority = key;
               setParamsUrl({...obj})
             }} />
           </div>
