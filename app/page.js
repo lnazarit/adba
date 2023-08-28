@@ -35,7 +35,6 @@ export default function Home() {
             showAll
             label={'Category'}
             callback={(category) => {
-              console.log(category);
               setCategory(category)
               const obj = {...paramsUrl}
               if(category) obj.category = category.id;
