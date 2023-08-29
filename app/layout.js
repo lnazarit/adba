@@ -1,10 +1,10 @@
 import './globals.css'
 import ProviderLocale from "./ProviderLocale";
-import {Montserrat} from '@next/font/google'
+import {DM_Sans} from '@next/font/google'
 // import {notFound} from 'next/navigation';
 // import { ClerkProvider } from '@clerk/nextjs'
 
-const monse = Montserrat({
+const dmSans = DM_Sans({
   subsets: ['latin'],
   weight: ['400', '700']
 });
@@ -18,7 +18,7 @@ export const metadata = {
 export default function RootLayout({children}) {
   return (
       <html className="dark" lang="en">
-        <body className={monse.className}>
+        <body className={dmSans.className}>
           <ProviderLocale>
             {children}
           </ProviderLocale>

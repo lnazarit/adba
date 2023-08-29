@@ -9,10 +9,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function ProviderLocale({children}) {
-  const [locale, setLocale] = useState('en');
+  const [locale, setLocale] = useState(window.localStorage.getItem('locale') || 'en');
   const {messages} = useLang(locale);
   useEffect(() => {
-    setLocale(window.localStorage.getItem('locale') || 'en');
     window.toast = toast;
   }, [])
   if(!messages) return <div className='grid-loading'><Loading showText /></div>
