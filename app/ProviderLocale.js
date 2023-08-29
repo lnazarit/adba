@@ -19,7 +19,9 @@ export default function ProviderLocale({children}) {
     <NextIntlClientProvider locale={locale} messages={messages}>
       <NextUIProvider>
         <ToastContainer theme="dark" />
-        <ChangeLang locale={locale} callback={lo => setLocale(lo)} />
+        <div style={{margin: '0 auto', width: '50%', padding: '.5rem 0'}}>
+          <ChangeLang locale={locale} callback={lo => setLocale(lo)} />
+        </div>
         {children}
       </NextUIProvider>
     </NextIntlClientProvider>

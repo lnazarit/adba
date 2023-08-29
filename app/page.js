@@ -25,7 +25,7 @@ export default function Home() {
   }
 
   return (
-      <main style={{margin: '0 auto', width: '50%', padding: '4rem 0'}}>
+      <main style={{margin: '0 auto', width: '50%', padding: '2rem 0'}}>
         <h1>CRUD Home</h1>
         <small>{t('main_title')}</small>
         <h3 className="mb-4">{t('items')}: {data?.meta.total_items}</h3>
