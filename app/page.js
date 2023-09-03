@@ -81,7 +81,12 @@ export default function Home() {
         })}
         {data && (
         <Pagination
-          callback={page => {setParamsUrl({...paramsUrl, page})}}
+          callback={key => {
+            const map = new Map(paramsUrl)
+            if(key !== '') map.set('page', key)
+            else map.delete('search')
+            setParamsUrl(map)
+          }}
           meta={data.meta} />
         )}
         <hr className="mb-4" />

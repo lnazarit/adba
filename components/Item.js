@@ -11,7 +11,7 @@ import {formatDateToDo} from './actionsItem';
 
 export default function Item(props) {
   const {
-    title, content, id, className, reloadList, done, category, cover, dateToDone, dateDone, priority
+    title, content, id, className, reloadList, done, category, cover, dateToDone, dateDone, priority, url
   } = props;
   const [isLoading, setLoading] = useState(false);
   const t = useTranslations();
@@ -77,6 +77,7 @@ export default function Item(props) {
       <Chip size="sm" className="mb-3">{category.name}</Chip>
       <p>Date to do: {formatDateToDo(dateToDone)}</p>
       <p>{[...Array(priority)].map((e, index) => index + 1).map((item) => <span key={item} className="star">&#9733;</span>)}</p>
+      {url ? <p><a href={url} target="_blank">Go to link</a></p> : null}
       </div>
       <EditItem reloadList={reloadList} {...props} />
       <Tooltip content={t('commons.delete')}>
