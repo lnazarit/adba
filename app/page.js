@@ -37,7 +37,8 @@ export default function Home() {
               setCategory(category)
               const map = new Map(paramsUrl)
               if(category) map.set('category', category.id)
-              else map.delete('category')
+              else map.delete('category');
+              map.delete('page');
               setParamsUrl(map)
             }
           }
@@ -45,8 +46,9 @@ export default function Home() {
           <div className='ml-2'>
             <FilterDone callback={(key) => {
               const map = new Map(paramsUrl)
-              if(key !== 'all') map.set('done', key)
-              else map.delete('done')
+              if(key !== 'all') map.set('done', key);
+              else map.delete('done');
+              map.delete('page');
               setParamsUrl(map)
             }} />
           </div>
@@ -54,7 +56,8 @@ export default function Home() {
             <FilterRate callback={(key) => {
               const map = new Map(paramsUrl)
               if(key !== 'all') map.set('priority', key)
-              else map.delete('priority')
+              else map.delete('priority');
+              map.delete('page');
               setParamsUrl(map)
             }} />
           </div>
@@ -62,7 +65,8 @@ export default function Home() {
             callback={(key) => {
               const map = new Map(paramsUrl)
               if(key !== '') map.set('search', key)
-              else map.delete('search')
+              else map.delete('search');
+              map.delete('page');
               setParamsUrl(map)
             }}
           />
