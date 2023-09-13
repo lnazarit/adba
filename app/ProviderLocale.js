@@ -9,7 +9,15 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function ProviderLocale({children}) {
-  const [locale, setLocale] = useState(window.localStorage.getItem('locale') || 'en');
+
+  const evalLocale = () => {
+    if(typeof window !== "undefined") {
+      return window.localStorage.getItem('locale') || 'en';
+    }
+    return 'en';
+  }
+
+  const [locale, setLocale] = useState(evalLocale());
   const {messages} = useLang(locale);
   useEffect(() => {
     window.toast = toast;
