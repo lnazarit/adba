@@ -27,6 +27,8 @@ model Item {
   priority Int @default(1)
   dateDone DateTime?
   dateToDone DateTime?
+  proof String?
+  warranty String?
 }
 
 model Categories {
