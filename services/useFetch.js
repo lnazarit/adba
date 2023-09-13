@@ -8,7 +8,6 @@ export const useFetch = (url, params, refresh) => {
 
   const fetching = () => {
     if(params) {
-      console.log(params)
       params.forEach((value, key) => {
         urlFetch.searchParams.set(key, value);
       });

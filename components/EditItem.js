@@ -21,9 +21,12 @@ export default function EditItem(props) {
   const [dateToDone, setDateToDone] = useState(props.dateToDone);
   const [url, setUrl] = useState(props.url);
   const [file, setFile] = useState(props.cover);
+  const [proof, setProof] = useState(props.proof);
   const [categoryId, setCategoryId] = useState(props.category?.id)
-  const [removeCover, setRemoveCover] = useState(null)
+  const [removeCover, setRemoveCover] = useState(null);
+  const [removeProof, setRemoveProof] = useState(null);
   const [priority, setPriority] = useState(props.priority)
+  const [warranty, setWarranty] = useState(props.warranty)
 
   const save = onClose => {
     setLoading(true);
@@ -36,8 +39,11 @@ export default function EditItem(props) {
     data.set("done", done);
     data.set("url", url);
     data.set("dateToDone", dateToDone);
+    data.set("proof", proof);
+    data.set("warranty", warranty);
 
     if(removeCover) data.set("removeCover", removeCover);
+    if(removeCover) data.set("removeProof", removeProof);
 
     fetch(`${ITEMS_API}/${props.id}`, {
       method: 'PUT',
@@ -56,11 +62,13 @@ export default function EditItem(props) {
   const reset = (cb) => {
     setTitle(props.title);
     setUrl(props.url);
+    setProof(props.proof);
     setContent(props.content);
     setCategoryId(props.category?.id);
     setDone(props.done);
     setDateToDone(props.dateToDone);
     setFile(props.cover);
+    setWarranty(props.warranty);
     if(cb) cb();
   }
 
@@ -84,6 +92,7 @@ export default function EditItem(props) {
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         placement="top-center"
+        scrollBehavior="inside"
       >
         <ModalContent>
           {(onClose) => (
@@ -121,7 +130,7 @@ export default function EditItem(props) {
                   value={url}
                   onChange={({target}) => setUrl(target.value)}
                 />
-                <div className="flex py-2 px-1 justify-between">
+                <div className="mb-4">
                   <Checkbox
                     isSelected={done === true}
                     onChange={() => setDone(!done)}
@@ -132,6 +141,22 @@ export default function EditItem(props) {
                     DONE
                   </Checkbox>
                 </div>
+                {done && (
+                  <>
+                    <div className="mb-4">
+                      <FileUploader label="Boleta de compra" file={proof} handleFileChange={e => {
+                        setRemoveProof(e.destroy ? e.destroy : null)
+                        setProof(e.file)
+                      }} />
+                    </div>
+                    <Input
+                      label='Warranty time'
+                      variant="bordered"
+                      value={warranty}
+                      onChange={({target}) => setWarranty(target.value)}
+                    />
+                  </>
+                )}
                 <Rate callback={e => setPriority(Number(e))} />
               </ModalBody>
               <ModalFooter>

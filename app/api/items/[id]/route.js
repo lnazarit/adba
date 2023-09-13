@@ -58,23 +58,32 @@ export async function PUT(req, {params}) {
     const title = data.get("title");
     const url = data.get("url");
     const priority = data.get("priority");
+    const warranty = data.get("warranty");
     const categoryId = data.get("categoryId") ? Number(data.get("categoryId")) : null;
     const content = data.get("content");
+    const proof = data.get("proof");
     const removeCover = data.get("removeCover");
+    const removeProof = data.get("removeProof");
     const done = data.get("done") === 'true' ? true : false;
     const doneRes = done ? new Date() : null;
     const coverProcess = () => {
       if(cover?.name) return cover.name;
       if(cover === 'null') return null;
     }
+    const proofProcess = () => {
+      if(proof?.name) return proof.name;
+      if(proof === 'null') return null;
+    }
     const obj = {
       title,
       content,
       categoryId,
       done,
+      warranty,
       priority: priority ? Number(priority) : null,
       url,
-      cover: coverProcess()
+      cover: coverProcess(),
+      proof: proofProcess()
     }
     Object.keys(obj).forEach(key => {
       if (obj[key] === null || obj[key] === undefined) {
@@ -93,10 +102,15 @@ export async function PUT(req, {params}) {
         const filePath = path.join(process.cwd(), "public/assets", removeCover);
         await unlink(filePath);
       }
+    } else if(removeProof) {
+      if(existsSync(`public/assets/${removeProof}`)){
+        const filePath = path.join(process.cwd(), "public/assets", removeProof);
+        await unlink(filePath);
+      }
     }
     const res = await prisma.item.update({
       where: { id: Number(params.id) },
-      data: {...obj, dateDone: doneRes, cover: coverProcess()}
+      data: {...obj, dateDone: doneRes, cover: coverProcess(), cover: proofProcess()}
     });
 
     if(!res) {
