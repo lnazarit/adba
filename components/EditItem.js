@@ -117,7 +117,7 @@ export default function EditItem(props) {
                 />
                 <div className="mb-4">
                   <FileUploader file={file} handleFileChange={e => {
-                    setRemoveCover(e.destroy ? e.destroy : null)
+                    setRemoveCover(e.destroy ? e.destroy : null);
                     setFile(e.file)
                   }} />
                 </div>

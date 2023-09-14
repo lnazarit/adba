@@ -102,15 +102,23 @@ export async function PUT(req, {params}) {
         const filePath = path.join(process.cwd(), "public/assets", removeCover);
         await unlink(filePath);
       }
-    } else if(removeProof) {
+    }
+    if(proof && typeof proof !== 'string' && typeof proof !== null && typeof proof !== undefined) {
+      const filePath = path.join(process.cwd(), "public/assets", proof.name);
+      const bytes = await proof.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+      await writeFile(filePath, buffer);
+    }
+    else if(removeProof) {
       if(existsSync(`public/assets/${removeProof}`)){
         const filePath = path.join(process.cwd(), "public/assets", removeProof);
         await unlink(filePath);
       }
     }
+
     const res = await prisma.item.update({
       where: { id: Number(params.id) },
-      data: {...obj, dateDone: doneRes, cover: coverProcess(), cover: proofProcess()}
+      data: {...obj, dateDone: doneRes, cover: coverProcess(), proof: proofProcess()}
     });
 
     if(!res) {
