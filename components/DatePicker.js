@@ -6,8 +6,8 @@ import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 
 export default function Example({date, title, onChange}) {
-  const [selected, setSelected] = useState(date)
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [selected, setSelected] = useState(typeof date === 'string' ? new Date(date) : null)
+  const [isOpen, setIsOpen] = useState(false);
 
   let footer = <p>Please pick a day.</p>;
   if (selected) {

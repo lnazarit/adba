@@ -122,7 +122,11 @@ export default function EditItem(props) {
                   }} />
                 </div>
                 <div className="mb-4">
-                  <DatePicker onChange={(date) => {console.log(date); setDateToDone(date)}} title={t('commons.select_date')} />
+                  <DatePicker
+                    date={dateToDone}
+                    onChange={(date) => setDateToDone(date)}
+                    title={t('commons.select_date')}
+                  />
                 </div>
                 <Input
                   label={t('commons.url')}
