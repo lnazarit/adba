@@ -122,7 +122,7 @@ export default function EditItem(props) {
                   }} />
                 </div>
                 <div className="mb-4">
-                  <DatePicker onChange={(date) => setDateToDone(date)} title={t('commons.select_date')} />
+                  <DatePicker onChange={(date) => {console.log(date); setDateToDone(date)}} title={t('commons.select_date')} />
                 </div>
                 <Input
                   label={t('commons.url')}
@@ -157,7 +157,7 @@ export default function EditItem(props) {
                     />
                   </>
                 )}
-                <Rate callback={e => setPriority(Number(e))} />
+                <Rate selected={props.priority} callback={e => setPriority(Number(e))} />
               </ModalBody>
               <ModalFooter>
                 <Button variant="flat"  onPress={() => reset(onClose)}>

@@ -77,7 +77,7 @@ export async function POST(request) {
   const cover = data.get("cover");
   const title = data.get("title");
   const priority = data.get("priority");
-  const dateToDone = data.get("dateToDone");
+  const dateToDone = data.get("dateToDone") ? new Date(data.get("dateToDone")) : null;
   const url = data.get("url");
   const categoryId = Number(data.get("categoryId"));
   const content = data.get("content");

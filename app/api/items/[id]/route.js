@@ -58,6 +58,7 @@ export async function PUT(req, {params}) {
     const title = data.get("title");
     const url = data.get("url");
     const priority = data.get("priority");
+    const dateToDone = data.get("dateToDone") ? new Date(data.get("dateToDone")) : null;
     const warranty = data.get("warranty");
     const categoryId = data.get("categoryId") ? Number(data.get("categoryId")) : null;
     const content = data.get("content");
@@ -78,6 +79,7 @@ export async function PUT(req, {params}) {
       title,
       content,
       categoryId,
+      dateToDone,
       done,
       warranty,
       priority: priority ? Number(priority) : null,
