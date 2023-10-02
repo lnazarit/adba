@@ -77,7 +77,7 @@ export async function POST(request) {
   const cover = data.get("cover");
   const title = data.get("title");
   const priority = data.get("priority");
-  const dateToDone = data.get("dateToDone") ? new Date(data.get("dateToDone")) : null;
+  const dateToDone = data.get("dateToDone") !== 'null' ? new Date(dateToDone) : null;
   const url = data.get("url");
   const categoryId = Number(data.get("categoryId"));
   const content = data.get("content");
@@ -96,7 +96,7 @@ export async function POST(request) {
       content,
       categoryId,
       priority: priority ? Number(priority) : null,
-      dateToDone: dateToDone !== 'null' ? new Date(dateToDone) : null,
+      dateToDone,
       done,
       url,
       dateDone: done ? new Date() : null,

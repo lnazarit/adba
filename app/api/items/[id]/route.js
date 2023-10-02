@@ -3,6 +3,7 @@ import { prisma } from "@/libs/prisma"
 import { writeFile, unlink } from "fs/promises";
 import { existsSync } from 'fs';
 import path from "path";
+import { object } from "zod";
 
 export async function GET(request, {params}) {
   try {
@@ -58,9 +59,10 @@ export async function PUT(req, {params}) {
     const title = data.get("title");
     const url = data.get("url");
     const priority = data.get("priority");
-    const dateToDone = data.get("dateToDone") ? new Date(data.get("dateToDone")) : null;
+
+    const dateToDone = data.get("dateToDone") !== 'null' && data.get("dateToDone") !== null ? new Date(data.get("dateToDone")) : null;
     const warranty = data.get("warranty");
-    const categoryId = data.get("categoryId") ? Number(data.get("categoryId")) : null;
+    const categoryId = data.get("categoryId") !== 'null' && data.get("dateToDone") !== null  ? Number(data.get("categoryId")) : null;
     const content = data.get("content");
     const proof = data.get("proof");
     const removeCover = data.get("removeCover");
@@ -87,11 +89,16 @@ export async function PUT(req, {params}) {
       cover: coverProcess(),
       proof: proofProcess()
     }
+    console.log(data.get("dateToDone"));
+    console.log(obj)
+
     Object.keys(obj).forEach(key => {
       if (obj[key] === null || obj[key] === undefined) {
         delete obj[key];
       }
     });
+
+    console.log(obj);
 
   try {
     if(cover && typeof cover !== 'string' && typeof cover !== null && typeof cover !== undefined) {

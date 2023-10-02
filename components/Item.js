@@ -45,9 +45,9 @@ export default function Item(props) {
     })
   }
 
-  const modifyDone = (done)  => {
+  const modifyDone = (e)  => {
     const data = new FormData();
-    data.set("done", done);
+    data.set("done", e);
     fetch(`${ITEMS_API}/${id}`, {
       method: 'PUT',
       body: data,
